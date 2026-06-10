@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rinvue — Life Insurance Solutions</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a18; }
+
+    /* NAV */
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 32px; border-bottom: 1px solid #e5e5e0; background: #fff; }
+    .nav-logo { font-size: 18px; font-weight: 600; color: #1a1a18; letter-spacing: -0.3px; }
+    .nav-logo span { color: #185FA5; }
+    .nav-links { display: flex; gap: 24px; align-items: center; }
+    .nav-link { font-size: 14px; color: #666; cursor: pointer; text-decoration: none; }
+    .nav-link:hover { color: #1a1a18; }
+    .nav-btn { font-size: 13px; font-weight: 500; padding: 7px 16px; border-radius: 8px; border: 1px solid #185FA5; color: #185FA5; background: transparent; cursor: pointer; }
+    .nav-btn:hover { background: #E6F1FB; }
+
+    /* PAGES */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* HERO */
+    .hero { padding: 72px 32px 56px; background: #fff; border-bottom: 1px solid #e5e5e0; }
+    .hero-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #185FA5; text-transform: uppercase; margin-bottom: 14px; }
+    .hero h1 { font-size: 36px; font-weight: 600; color: #1a1a18; line-height: 1.22; max-width: 540px; margin-bottom: 18px; }
+    .hero p { font-size: 15px; color: #555; max-width: 500px; line-height: 1.7; margin-bottom: 32px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-primary { font-size: 14px; font-weight: 600; padding: 11px 24px; border-radius: 8px; border: none; background: #185FA5; color: #fff; cursor: pointer; text-decoration: none; display: inline-block; }
+    .btn-primary:hover { background: #0C447C; }
+    .btn-secondary { font-size: 14px; font-weight: 500; padding: 11px 24px; border-radius: 8px; border: 1px solid #ccc; color: #1a1a18; background: transparent; cursor: pointer; }
+    .btn-secondary:hover { background: #f5f5f3; }
+
+    /* SECTIONS */
+    .section { padding: 48px 32px; background: #fff; }
+    .section + .section { border-top: 1px solid #e5e5e0; }
+    .section-label { font-size: 12px; font-weight: 600; letter-spacing: 0.07em; color: #999; text-transform: uppercase; margin-bottom: 20px; }
+
+    /* STATS */
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 48px; }
+    .stat { background: #f5f5f3; border-radius: 8px; padding: 20px; }
+    .stat-val { font-size: 28px; font-weight: 600; color: #1a1a18; }
+    .stat-label { font-size: 12px; color: #777; margin-top: 4px; }
+
+    /* CARDS */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; }
+    .card { background: #fff; border: 1px solid #e5e5e0; border-radius: 12px; padding: 24px; }
+    .card-icon { font-size: 24px; color: #185FA5; margin-bottom: 12px; }
+    .card h3 { font-size: 15px; font-weight: 600; color: #1a1a18; margin-bottom: 8px; }
+    .card p { font-size: 13px; color: #666; line-height: 1.6; }
+
+    /* CTA BAR */
+    .cta-bar { padding: 36px 32px; background: #E6F1FB; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid #B5D4F4; }
+    .cta-bar h2 { font-size: 17px; font-weight: 600; color: #0C447C; margin-bottom: 4px; }
+    .cta-bar p { font-size: 14px; color: #185FA5; }
+
+    /* FOOTER */
+    footer { padding: 24px 32px; border-top: 1px solid #e5e5e0; background: #fff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    footer p { font-size: 13px; color: #999; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 13px; color: #999; text-decoration: none; }
+    .footer-links a:hover { color: #185FA5; }
+
+    /* LOGIN PAGE */
+    .login-wrap { min-height: 600px; display: flex; align-items: center; justify-content: center; background: #f5f5f3; padding: 48px 16px; }
+    .login-card { background: #fff; border: 1px solid #e5e5e0; border-radius: 16px; padding: 40px 36px; width: 100%; max-width: 400px; }
+    .login-logo { text-align: center; margin-bottom: 10px; }
+    .login-logo i { font-size: 36px; color: #185FA5; }
+    .login-title { font-size: 20px; font-weight: 600; color: #1a1a18; text-align: center; margin-bottom: 6px; }
+    .login-sub { font-size: 14px; color: #777; text-align: center; margin-bottom: 32px; }
+    .field { margin-bottom: 18px; }
+    .field label { font-size: 13px; font-weight: 500; color: #555; display: block; margin-bottom: 7px; }
+    .field input { width: 100%; font-size: 14px; padding: 10px 14px; border-radius: 8px; border: 1px solid #ddd; background: #fff; color: #1a1a18; outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
+    .field input:focus { border-color: #185FA5; box-shadow: 0 0 0 3px #E6F1FB; }
+    .field-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
+    .forgot { font-size: 12px; color: #185FA5; cursor: pointer; text-decoration: none; }
+    .forgot:hover { text-decoration: underline; }
+    .login-btn { width: 100%; font-size: 15px; font-weight: 600; padding: 12px; border-radius: 8px; background: #185FA5; color: #fff; border: none; cursor: pointer; margin-top: 8px; transition: background 0.15s; }
+    .login-btn:hover { background: #0C447C; }
+    .login-divider { display: flex; align-items: center; gap: 12px; margin: 24px 0; }
+    .login-divider hr { flex: 1; border: none; border-top: 1px solid #e5e5e0; }
+    .login-divider span { font-size: 12px; color: #aaa; }
+    .sso-btn { width: 100%; font-size: 14px; font-weight: 500; padding: 11px; border-radius: 8px; border: 1px solid #ddd; background: #fff; color: #1a1a18; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.15s; }
+    .sso-btn:hover { background: #f5f5f3; }
+    .login-footer { font-size: 12px; color: #aaa; text-align: center; margin-top: 24px; line-height: 2; }
+    .login-footer a { color: #185FA5; text-decoration: none; cursor: pointer; }
+    .login-footer a:hover { text-decoration: underline; }
+    .alert { font-size: 13px; color: #A32D2D; background: #FCEBEB; border-radius: 8px; padding: 11px 14px; margin-top: 14px; display: none; }
+    .success-msg { font-size: 13px; color: #3B6D11; background: #EAF3DE; border-radius: 8px; padding: 11px 14px; margin-top: 14px; display: none; }
+
+    /* AGENT DASHBOARD (post-login) */
+    .dashboard { padding: 32px; }
+    .dashboard-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
+    .dashboard-header h2 { font-size: 20px; font-weight: 600; }
+    .welcome { font-size: 14px; color: #666; margin-top: 3px; }
+    .logout-btn { font-size: 13px; padding: 7px 14px; border-radius: 8px; border: 1px solid #ddd; background: #fff; cursor: pointer; color: #555; }
+    .logout-btn:hover { background: #f5f5f3; }
+    .dash-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 28px; }
+    .dash-stat { background: #f5f5f3; border-radius: 8px; padding: 16px; }
+    .dash-stat-val { font-size: 24px; font-weight: 600; }
+    .dash-stat-label { font-size: 12px; color: #777; margin-top: 3px; }
+    .dash-stat.blue .dash-stat-val { color: #185FA5; }
+    .dash-stat.green .dash-stat-val { color: #3B6D11; }
+    .dash-stat.amber .dash-stat-val { color: #854F0B; }
+    .dash-stat.red .dash-stat-val { color: #A32D2D; }
+    .claims-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .claims-table th { text-align: left; padding: 10px 12px; border-bottom: 1px solid #e5e5e0; font-size: 12px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 0.05em; }
+    .claims-table td { padding: 12px 12px; border-bottom: 1px solid #f0f0ec; color: #333; }
+    .claims-table tr:last-child td { border-bottom: none; }
+    .claims-table tr:hover td { background: #f9f9f7; }
+    .status-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 6px; }
+    .status-approved { background: #EAF3DE; color: #27500A; }
+    .status-pending { background: #FAEEDA; color: #633806; }
+    .status-flagged { background: #FCEBEB; color: #791F1F; }
+    .status-review { background: #E6F1FB; color: #0C447C; }
+    .table-wrap { background: #fff; border: 1px solid #e5e5e0; border-radius: 12px; overflow: hidden; }
+    .table-header { padding: 16px 20px; border-bottom: 1px solid #e5e5e0; display: flex; justify-content: space-between; align-items: center; }
+    .table-header h3 { font-size: 15px; font-weight: 600; }
+
+    @media (max-width: 600px) {
+      .nav { padding: 12px 16px; }
+      .nav-links .nav-link { display: none; }
+      .hero, .section, .dashboard { padding: 32px 16px; }
+      .cta-bar { padding: 24px 16px; }
+      footer { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">Rin<span>Vue</span></div>
+  <div class="nav-links">
+    <a class="nav-link" onclick="showPage('business')">Home</a>
+    <a class="nav-link" href="#services">Products</a>
+    <a class="nav-link" href="#about">About</a>
+    <a class="nav-link" href="#contact">Contact</a>
+    <button class="nav-btn" onclick="showPage('login')">
+      <i class="ti ti-lock" style="font-size:13px;margin-right:5px;vertical-align:-1px"></i>Agent login
+    </button>
+  </div>
+</nav>
+
+<!-- BUSINESS PAGE -->
+<div id="page-business" class="page active">
+
+  <div class="hero">
+    <div class="hero-eyebrow">Life insurance solutions</div>
+    <h1>Protecting families with intelligent coverage</h1>
+    <p>We combine EDRS and SSDMF verification with automated claim processing to deliver faster, more accurate life insurance outcomes for carriers and beneficiaries alike.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Explore our platform</a>
+      <button class="btn-secondary" onclick="showPage('login')">Agent portal →</button>
+    </div>
+  </div>
+
+  <div class="section" id="stats">
+    <div class="section-label">By the numbers</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-val">98%</div><div class="stat-label">Verification accuracy</div></div>
+      <div class="stat"><div class="stat-val">&lt; 48h</div><div class="stat-label">Average claim resolution</div></div>
+      <div class="stat"><div class="stat-val">2.4M+</div><div class="stat-label">Claims processed</div></div>
+      <div class="stat"><div class="stat-val">150+</div><div class="stat-label">Carrier partners</div></div>
+    </div>
+  </div>
+
+  <div class="section" id="services">
+    <div class="section-label">What we offer</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon"><i class="ti ti-shield-check"></i></div>
+        <h3>Death verification</h3>
+        <p>Automated EDRS and SSDMF cross-checks confirm claims in real time, reducing manual review by 80%.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="ti ti-api"></i></div>
+        <h3>API integration</h3>
+        <p>Seamless middleware connects your carrier systems to verification sources with a single REST API.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="ti ti-chart-bar"></i></div>
+        <h3>Claims dashboard</h3>
+        <p>Agents get a unified view of claim status, approvals, and flags across all active policies.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="ti ti-lock"></i></div>
+        <h3>Secure & compliant</h3>
+        <p>SOC 2 Type II certified with HIPAA-aligned data handling and end-to-end encryption.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="about">
+    <div class="section-label">About us</div>
+    <p style="font-size:15px;color:#555;max-width:600px;line-height:1.75;">
+      Rinvue was founded to modernize how life insurance carriers process and verify claims. Our platform integrates directly with federal and state death registries, enabling carriers to resolve claims accurately and compassionately — at scale.
+    </p>
+  </div>
+
+  <div class="cta-bar" id="contact">
+    <div>
+      <h2>Ready to streamline your claims pipeline?</h2>
+      <p>Contact our team to schedule a demo or request API credentials.</p>
+    </div>
+    <a href="mailto:sales@rinvue.com" class="btn-primary">Get in touch</a>
+  </div>
+
+  <footer>
+    <p>© 2026 Rinvue Inc. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="#">Privacy policy</a>
+      <a href="#">Terms of service</a>
+      <a href="#">Support</a>
+      <a onclick="showPage('login')" style="cursor:pointer">Agent login</a>
+    </div>
+  </footer>
+
+</div>
+
+<!-- LOGIN PAGE -->
+<div id="page-login" class="page">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo"><i class="ti ti-shield-check"></i></div>
+      <div class="login-title">Agent portal</div>
+      <div class="login-sub">Sign in to access your claims dashboard</div>
+
+      <div class="field">
+        <label for="agent-id">Agent ID</label>
+        <input type="text" id="agent-id" placeholder="e.g. AGT-00421" autocomplete="username">
+      </div>
+      <div class="field">
+        <div class="field-row">
+          <label for="password" style="margin:0">Password</label>
+          <a href="#" class="forgot" onclick="showForgot()">Forgot password?</a>
+        </div>
+        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+
+      <button class="login-btn" onclick="handleLogin()">Sign in</button>
+
+      <div class="alert" id="login-alert">
+        <i class="ti ti-alert-circle" style="font-size:14px;margin-right:6px;vertical-align:-2px"></i>
+        Invalid credentials. Please check your Agent ID and password.
+      </div>
+
+      <div class="login-divider"><hr><span>or</span><hr></div>
+
+      <button class="sso-btn" onclick="handleSSO()">
+        <i class="ti ti-building" style="font-size:17px"></i>
+        Sign in with carrier SSO
+      </button>
+
+      <div class="login-footer">
+        Need access? <a href="mailto:sales@rinvue.com">Contact your administrator</a><br>
+        <a onclick="showPage('business')" style="cursor:pointer">← Back to main site</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AGENT DASHBOARD (shown after login) -->
+<div id="page-dashboard" class="page">
+  <div class="dashboard">
+    <div class="dashboard-header">
+      <div>
+        <h2>Claims dashboard</h2>
+        <div class="welcome" id="welcome-msg">Welcome back, Agent</div>
+      </div>
+      <button class="logout-btn" onclick="handleLogout()">
+        <i class="ti ti-logout" style="font-size:14px;margin-right:5px;vertical-align:-1px"></i>Sign out
+      </button>
+    </div>
+
+    <div class="dash-stats">
+      <div class="dash-stat blue"><div class="dash-stat-val">142</div><div class="dash-stat-label">Active claims</div></div>
+      <div class="dash-stat green"><div class="dash-stat-val">38</div><div class="dash-stat-label">Approved today</div></div>
+      <div class="dash-stat amber"><div class="dash-stat-val">17</div><div class="dash-stat-label">Pending review</div></div>
+      <div class="dash-stat red"><div class="dash-stat-val">4</div><div class="dash-stat-label">Flagged</div></div>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-header">
+        <h3>Recent claims</h3>
+        <button class="logout-btn" style="font-size:12px">Export CSV</button>
+      </div>
+      <table class="claims-table">
+        <thead>
+          <tr>
+            <th>Claim ID</th>
+            <th>Policy holder</th>
+            <th>Filed date</th>
+            <th>EDRS</th>
+            <th>SSDMF</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CLM-20483</td>
+            <td>Margaret L. Torres</td>
+            <td>May 15, 2026</td>
+            <td>✓ Confirmed</td>
+            <td>✓ Confirmed</td>
+            <td><span class="status-badge status-approved">Approved</span></td>
+          </tr>
+          <tr>
+            <td>CLM-20484</td>
+            <td>Harold B. Chen</td>
+            <td>May 16, 2026</td>
+            <td>✓ Confirmed</td>
+            <td>⏳ Pending</td>
+            <td><span class="status-badge status-pending">On hold</span></td>
+          </tr>
+          <tr>
+            <td>CLM-20485</td>
+            <td>Sandra P. Williams</td>
+            <td>May 16, 2026</td>
+            <td>✗ No record</td>
+            <td>✗ No record</td>
+            <td><span class="status-badge status-flagged">Flagged</span></td>
+          </tr>
+          <tr>
+            <td>CLM-20486</td>
+            <td>James R. Okafor</td>
+            <td>May 17, 2026</td>
+            <td>✓ Confirmed</td>
+            <td>✓ Confirmed</td>
+            <td><span class="status-badge status-approved">Approved</span></td>
+          </tr>
+          <tr>
+            <td>CLM-20487</td>
+            <td>Dorothy K. Nguyen</td>
+            <td>May 17, 2026</td>
+            <td>⏳ Pending</td>
+            <td>⏳ Pending</td>
+            <td><span class="status-badge status-review">In review</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.getElementById('login-alert').style.display = 'none';
+    window.scrollTo(0, 0);
+  }
+
+  function handleLogin() {
+    const id = document.getElementById('agent-id').value.trim();
+    const pw = document.getElementById('password').value.trim();
+    const alert = document.getElementById('login-alert');
+    alert.style.display = 'none';
+    if (id && pw) {
+      document.getElementById('welcome-msg').textContent = 'Welcome back, ' + id;
+      showPage('dashboard');
+    } else {
+      alert.style.display = 'block';
+    }
+  }
+
+  function handleLogout() {
+    document.getElementById('agent-id').value = '';
+    document.getElementById('password').value = '';
+    showPage('login');
+  }
+
+  function handleSSO() {
+    alert('SSO redirect: Connect this button to your carrier identity provider (Okta, Azure AD, etc.)');
+  }
+
+  function showForgot() {
+    alert('Forgot password: Connect this to your password reset flow or email sales@rinvue.com');
+  }
+
+  document.getElementById('password').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') handleLogin();
+  });
+</script>
+
+</body>
+</html>

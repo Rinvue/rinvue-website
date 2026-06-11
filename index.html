@@ -3,15 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rinvue — Life Insurance Solutions</title>
+  <title>Rinvue — Death Verification Infrastructure</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f3; color: #1a1a18; }
 
-    /* NAV */
-    .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 32px; border-bottom: 1px solid #e5e5e0; background: #fff; }
-    .nav-logo { font-size: 18px; font-weight: 600; color: #1a1a18; letter-spacing: -0.3px; }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 32px; border-bottom: 1px solid #e5e5e0; background: #fff; position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-size: 18px; font-weight: 700; color: #1a1a18; letter-spacing: -0.3px; cursor: pointer; }
     .nav-logo span { color: #185FA5; }
     .nav-links { display: flex; gap: 24px; align-items: center; }
     .nav-link { font-size: 14px; color: #666; cursor: pointer; text-decoration: none; }
@@ -19,371 +18,1165 @@
     .nav-btn { font-size: 13px; font-weight: 500; padding: 7px 16px; border-radius: 8px; border: 1px solid #185FA5; color: #185FA5; background: transparent; cursor: pointer; }
     .nav-btn:hover { background: #E6F1FB; }
 
-    /* PAGES */
     .page { display: none; }
     .page.active { display: block; }
 
     /* HERO */
-    .hero { padding: 72px 32px 56px; background: #fff; border-bottom: 1px solid #e5e5e0; }
-    .hero-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: #185FA5; text-transform: uppercase; margin-bottom: 14px; }
-    .hero h1 { font-size: 36px; font-weight: 600; color: #1a1a18; line-height: 1.22; max-width: 540px; margin-bottom: 18px; }
-    .hero p { font-size: 15px; color: #555; max-width: 500px; line-height: 1.7; margin-bottom: 32px; }
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-    .btn-primary { font-size: 14px; font-weight: 600; padding: 11px 24px; border-radius: 8px; border: none; background: #185FA5; color: #fff; cursor: pointer; text-decoration: none; display: inline-block; }
+    .hero { padding: 80px 32px 64px; background: #fff; border-bottom: 1px solid #e5e5e0; }
+    .hero-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; color: #185FA5; text-transform: uppercase; margin-bottom: 16px; }
+    .hero h1 { font-size: 40px; font-weight: 700; color: #1a1a18; line-height: 1.18; max-width: 640px; margin-bottom: 20px; }
+    .hero h1 em { color: #185FA5; font-style: normal; }
+    .hero p { font-size: 16px; color: #555; max-width: 580px; line-height: 1.75; margin-bottom: 36px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 48px; }
+    .btn-primary { font-size: 14px; font-weight: 600; padding: 12px 26px; border-radius: 8px; border: none; background: #185FA5; color: #fff; cursor: pointer; text-decoration: none; display: inline-block; }
     .btn-primary:hover { background: #0C447C; }
-    .btn-secondary { font-size: 14px; font-weight: 500; padding: 11px 24px; border-radius: 8px; border: 1px solid #ccc; color: #1a1a18; background: transparent; cursor: pointer; }
+    .btn-secondary { font-size: 14px; font-weight: 500; padding: 12px 26px; border-radius: 8px; border: 1px solid #ccc; color: #1a1a18; background: transparent; cursor: pointer; }
     .btn-secondary:hover { background: #f5f5f3; }
 
-    /* SECTIONS */
-    .section { padding: 48px 32px; background: #fff; }
+    .client-strip { padding: 0 32px 56px; background: #fff; }
+    .client-strip p { font-size: 12px; font-weight: 600; letter-spacing: 0.07em; color: #bbb; text-transform: uppercase; margin-bottom: 16px; }
+    .client-types { display: flex; gap: 32px; flex-wrap: wrap; align-items: center; }
+    .client-type { font-size: 13px; font-weight: 600; color: #999; display: flex; align-items: center; gap: 7px; }
+    .client-type i { font-size: 18px; color: #ccc; }
+
+    .data-ticker { background: #042C53; padding: 12px 32px; display: flex; align-items: center; gap: 24px; overflow: hidden; }
+    .ticker-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; color: #378ADD; text-transform: uppercase; white-space: nowrap; display: flex; align-items: center; gap: 7px; }
+    .ticker-items { display: flex; gap: 32px; animation: tickerScroll 40s linear infinite; }
+    .ticker-item { font-size: 12px; color: #B5D4F4; white-space: nowrap; }
+    .ticker-dot { width: 7px; height: 7px; border-radius: 50%; background: #3B9B3F; display: inline-block; animation: pulse 1.5s ease-in-out infinite; flex-shrink: 0; }
+    @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+    .section { padding: 56px 32px; background: #fff; }
     .section + .section { border-top: 1px solid #e5e5e0; }
-    .section-label { font-size: 12px; font-weight: 600; letter-spacing: 0.07em; color: #999; text-transform: uppercase; margin-bottom: 20px; }
+    .section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; color: #999; text-transform: uppercase; margin-bottom: 10px; }
+    .section-title { font-size: 26px; font-weight: 700; color: #1a1a18; margin-bottom: 14px; line-height: 1.3; }
+    .section-sub { font-size: 15px; color: #666; max-width: 620px; line-height: 1.75; margin-bottom: 36px; }
 
-    /* STATS */
-    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 48px; }
-    .stat { background: #f5f5f3; border-radius: 8px; padding: 20px; }
-    .stat-val { font-size: 28px; font-weight: 600; color: #1a1a18; }
-    .stat-label { font-size: 12px; color: #777; margin-top: 4px; }
-
-    /* CARDS */
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; }
-    .card { background: #fff; border: 1px solid #e5e5e0; border-radius: 12px; padding: 24px; }
-    .card-icon { font-size: 24px; color: #185FA5; margin-bottom: 12px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+    .card { background: #fff; border: 1px solid #e5e5e0; border-radius: 12px; padding: 26px; }
+    .card-icon { font-size: 26px; color: #185FA5; margin-bottom: 14px; }
     .card h3 { font-size: 15px; font-weight: 600; color: #1a1a18; margin-bottom: 8px; }
-    .card p { font-size: 13px; color: #666; line-height: 1.6; }
+    .card p { font-size: 13px; color: #666; line-height: 1.65; }
+    .card.featured { border-color: #185FA5; border-width: 2px; }
+    .card-badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 6px; background: #E6F1FB; color: #0C447C; margin-bottom: 10px; }
 
-    /* CTA BAR */
-    .cta-bar { padding: 36px 32px; background: #E6F1FB; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; border-top: 1px solid #B5D4F4; }
-    .cta-bar h2 { font-size: 17px; font-weight: 600; color: #0C447C; margin-bottom: 4px; }
-    .cta-bar p { font-size: 14px; color: #185FA5; }
+    /* STATE MAP GRID */
+    .state-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 8px; margin-top: 8px; }
+    .state-item { background: #f5f5f3; border-radius: 8px; padding: 10px 8px; text-align: center; font-size: 11px; font-weight: 600; color: #555; border: 1px solid #e5e5e0; transition: all 0.2s; cursor: default; }
+    .state-item.live { background: #EAF3DE; border-color: #A8D080; color: #27500A; }
+    .state-item.live::after { content: " ✓"; }
+    .state-legend { display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap; }
+    .state-legend-item { display: flex; align-items: center; gap: 7px; font-size: 13px; color: #666; }
+    .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
 
-    /* FOOTER */
-    footer { padding: 24px 32px; border-top: 1px solid #e5e5e0; background: #fff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    footer p { font-size: 13px; color: #999; }
-    .footer-links { display: flex; gap: 20px; }
-    .footer-links a { font-size: 13px; color: #999; text-decoration: none; }
-    .footer-links a:hover { color: #185FA5; }
+    /* PRICING */
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .pricing-card { background: #fff; border: 1px solid #e5e5e0; border-radius: 14px; padding: 30px; }
+    .pricing-card.featured { border: 2px solid #185FA5; }
+    .pricing-name { font-size: 12px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: #185FA5; margin-bottom: 8px; }
+    .pricing-headline { font-size: 18px; font-weight: 700; color: #1a1a18; margin-bottom: 6px; }
+    .pricing-desc { font-size: 13px; color: #777; line-height: 1.6; margin-bottom: 20px; }
+    .pricing-features { list-style: none; padding: 0; margin-bottom: 24px; }
+    .pricing-features li { font-size: 13px; color: #444; padding: 7px 0; border-bottom: 1px solid #f0f0ec; display: flex; align-items: flex-start; gap: 8px; line-height: 1.5; }
+    .pricing-features li:last-child { border-bottom: none; }
+    .pricing-features li i { color: #3B6D11; font-size: 15px; margin-top: 1px; flex-shrink: 0; }
+    .pricing-features li.locked i { color: #ccc; }
+    .pricing-features li.locked span { color: #aaa; }
+    .pricing-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 5px; background: #FAEEDA; color: #633806; margin-left: 5px; }
 
-    /* LOGIN PAGE */
-    .login-wrap { min-height: 600px; display: flex; align-items: center; justify-content: center; background: #f5f5f3; padding: 48px 16px; }
-    .login-card { background: #fff; border: 1px solid #e5e5e0; border-radius: 16px; padding: 40px 36px; width: 100%; max-width: 400px; }
-    .login-logo { text-align: center; margin-bottom: 10px; }
-    .login-logo i { font-size: 36px; color: #185FA5; }
-    .login-title { font-size: 20px; font-weight: 600; color: #1a1a18; text-align: center; margin-bottom: 6px; }
-    .login-sub { font-size: 14px; color: #777; text-align: center; margin-bottom: 32px; }
-    .field { margin-bottom: 18px; }
-    .field label { font-size: 13px; font-weight: 500; color: #555; display: block; margin-bottom: 7px; }
-    .field input { width: 100%; font-size: 14px; padding: 10px 14px; border-radius: 8px; border: 1px solid #ddd; background: #fff; color: #1a1a18; outline: none; transition: border-color 0.15s, box-shadow 0.15s; }
-    .field input:focus { border-color: #185FA5; box-shadow: 0 0 0 3px #E6F1FB; }
-    .field-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 7px; }
-    .forgot { font-size: 12px; color: #185FA5; cursor: pointer; text-decoration: none; }
-    .forgot:hover { text-decoration: underline; }
-    .login-btn { width: 100%; font-size: 15px; font-weight: 600; padding: 12px; border-radius: 8px; background: #185FA5; color: #fff; border: none; cursor: pointer; margin-top: 8px; transition: background 0.15s; }
-    .login-btn:hover { background: #0C447C; }
-    .login-divider { display: flex; align-items: center; gap: 12px; margin: 24px 0; }
-    .login-divider hr { flex: 1; border: none; border-top: 1px solid #e5e5e0; }
-    .login-divider span { font-size: 12px; color: #aaa; }
-    .sso-btn { width: 100%; font-size: 14px; font-weight: 500; padding: 11px; border-radius: 8px; border: 1px solid #ddd; background: #fff; color: #1a1a18; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 0.15s; }
-    .sso-btn:hover { background: #f5f5f3; }
-    .login-footer { font-size: 12px; color: #aaa; text-align: center; margin-top: 24px; line-height: 2; }
-    .login-footer a { color: #185FA5; text-decoration: none; cursor: pointer; }
-    .login-footer a:hover { text-decoration: underline; }
-    .alert { font-size: 13px; color: #A32D2D; background: #FCEBEB; border-radius: 8px; padding: 11px 14px; margin-top: 14px; display: none; }
-    .success-msg { font-size: 13px; color: #3B6D11; background: #EAF3DE; border-radius: 8px; padding: 11px 14px; margin-top: 14px; display: none; }
+    /* SECURITY */
+    .security-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+    .security-item { background: #f5f5f3; border-radius: 10px; padding: 20px; }
+    .security-item i { font-size: 22px; color: #185FA5; margin-bottom: 10px; display: block; }
+    .security-item h4 { font-size: 14px; font-weight: 600; color: #1a1a18; margin-bottom: 6px; }
+    .security-item p { font-size: 12px; color: #666; line-height: 1.6; }
+    .cert-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .cert-badge { font-size: 12px; font-weight: 700; padding: 6px 14px; border-radius: 20px; border: 1px solid #B5D4F4; color: #0C447C; background: #E6F1FB; }
 
-    /* AGENT DASHBOARD (post-login) */
+    /* COMPLIANCE TABLE */
+    .compliance-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .compliance-table th { text-align: left; padding: 10px 14px; border-bottom: 2px solid #e5e5e0; font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.05em; }
+    .compliance-table td { padding: 13px 14px; border-bottom: 1px solid #f0f0ec; color: #333; vertical-align: top; line-height: 1.55; }
+    .compliance-table tr:last-child td { border-bottom: none; }
+    .compliance-table tr:hover td { background: #f9f9f7; }
+    .comp-status { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 6px; white-space: nowrap; }
+    .comp-required { background: #FCEBEB; color: #791F1F; }
+    .comp-critical { background: #FAEEDA; color: #633806; }
+    .comp-recommended { background: #E6F1FB; color: #0C447C; }
+    .table-wrap { background: #fff; border: 1px solid #e5e5e0; border-radius: 12px; overflow: hidden; }
+    .table-header { padding: 18px 20px; border-bottom: 1px solid #e5e5e0; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+    .table-header h3 { font-size: 16px; font-weight: 600; }
+
+    /* DASHBOARD */
     .dashboard { padding: 32px; }
-    .dashboard-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 12px; }
-    .dashboard-header h2 { font-size: 20px; font-weight: 600; }
+    .dashboard-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+    .dashboard-header h2 { font-size: 20px; font-weight: 700; }
     .welcome { font-size: 14px; color: #666; margin-top: 3px; }
     .logout-btn { font-size: 13px; padding: 7px 14px; border-radius: 8px; border: 1px solid #ddd; background: #fff; cursor: pointer; color: #555; }
     .logout-btn:hover { background: #f5f5f3; }
-    .dash-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-bottom: 28px; }
-    .dash-stat { background: #f5f5f3; border-radius: 8px; padding: 16px; }
-    .dash-stat-val { font-size: 24px; font-weight: 600; }
+    .dash-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .dash-stat { background: #f5f5f3; border-radius: 10px; padding: 18px; }
+    .dash-stat-val { font-size: 26px; font-weight: 700; }
     .dash-stat-label { font-size: 12px; color: #777; margin-top: 3px; }
     .dash-stat.blue .dash-stat-val { color: #185FA5; }
     .dash-stat.green .dash-stat-val { color: #3B6D11; }
     .dash-stat.amber .dash-stat-val { color: #854F0B; }
     .dash-stat.red .dash-stat-val { color: #A32D2D; }
+    .refresh-bar { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #777; margin-bottom: 20px; }
+    .refresh-dot { width: 8px; height: 8px; border-radius: 50%; background: #3B9B3F; animation: pulse 1.5s ease-in-out infinite; flex-shrink: 0; }
+    .refresh-progress { flex: 1; height: 3px; background: #e5e5e0; border-radius: 2px; overflow: hidden; max-width: 160px; }
+    .refresh-fill { height: 100%; background: #185FA5; border-radius: 2px; transition: width 1s linear; }
+    .data-tabs { display: flex; gap: 4px; margin-bottom: 16px; background: #f5f5f3; border-radius: 8px; padding: 4px; width: fit-content; }
+    .data-tab { font-size: 13px; font-weight: 500; padding: 7px 16px; border-radius: 6px; cursor: pointer; color: #666; border: none; background: transparent; }
+    .data-tab.active { background: #fff; color: #1a1a18; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
     .claims-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .claims-table th { text-align: left; padding: 10px 12px; border-bottom: 1px solid #e5e5e0; font-size: 12px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 0.05em; }
-    .claims-table td { padding: 12px 12px; border-bottom: 1px solid #f0f0ec; color: #333; }
+    .claims-table th { text-align: left; padding: 10px 12px; border-bottom: 1px solid #e5e5e0; font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 0.05em; }
+    .claims-table td { padding: 12px; border-bottom: 1px solid #f0f0ec; color: #333; }
     .claims-table tr:last-child td { border-bottom: none; }
     .claims-table tr:hover td { background: #f9f9f7; }
-    .status-badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 6px; }
+    .status-badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 6px; }
     .status-approved { background: #EAF3DE; color: #27500A; }
     .status-pending { background: #FAEEDA; color: #633806; }
     .status-flagged { background: #FCEBEB; color: #791F1F; }
     .status-review { background: #E6F1FB; color: #0C447C; }
-    .table-wrap { background: #fff; border: 1px solid #e5e5e0; border-radius: 12px; overflow: hidden; }
-    .table-header { padding: 16px 20px; border-bottom: 1px solid #e5e5e0; display: flex; justify-content: space-between; align-items: center; }
-    .table-header h3 { font-size: 15px; font-weight: 600; }
+    .raw-data-row { background: #f9f9f7; font-family: 'SF Mono', 'Courier New', monospace; font-size: 11px; }
+    .raw-data-cell { color: #185FA5; }
+    .raw-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: #042C53; color: #B5D4F4; margin-left: 6px; }
 
-    @media (max-width: 600px) {
+    /* CTA */
+    .cta-bar { padding: 48px 32px; background: #042C53; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .cta-bar h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .cta-bar p { font-size: 14px; color: #85B7EB; }
+    .btn-white { font-size: 14px; font-weight: 600; padding: 12px 26px; border-radius: 8px; border: none; background: #fff; color: #185FA5; cursor: pointer; text-decoration: none; display: inline-block; white-space: nowrap; }
+    .btn-white:hover { background: #E6F1FB; }
+
+    /* LOGIN */
+    .login-wrap { min-height: 600px; display: flex; align-items: center; justify-content: center; background: #f5f5f3; padding: 48px 16px; }
+    .login-card { background: #fff; border: 1px solid #e5e5e0; border-radius: 16px; padding: 40px 36px; width: 100%; max-width: 420px; }
+    .login-logo { text-align: center; margin-bottom: 10px; }
+    .login-logo i { font-size: 36px; color: #185FA5; }
+    .login-title { font-size: 20px; font-weight: 700; color: #1a1a18; text-align: center; margin-bottom: 6px; }
+    .login-sub { font-size: 14px; color: #777; text-align: center; margin-bottom: 28px; }
+    .field { margin-bottom: 16px; }
+    .field label { font-size: 13px; font-weight: 500; color: #555; display: block; margin-bottom: 7px; }
+    .field select { width: 100%; font-size: 14px; padding: 10px 14px; border-radius: 8px; border: 1px solid #ddd; background: #fff; color: #1a1a18; outline: none; }
+    .login-btn { width: 100%; font-size: 15px; font-weight: 600; padding: 12px; border-radius: 8px; background: #185FA5; color: #fff; border: none; cursor: pointer; margin-top: 8px; }
+    .login-btn:hover { background: #0C447C; }
+    .login-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+    .login-divider hr { flex: 1; border: none; border-top: 1px solid #e5e5e0; }
+    .login-divider span { font-size: 12px; color: #aaa; }
+    .sso-btn { width: 100%; font-size: 14px; font-weight: 500; padding: 11px; border-radius: 8px; border: 1px solid #ddd; background: #fff; color: #1a1a18; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .sso-btn:hover { background: #f5f5f3; }
+    .sso-config { background: #f5f5f3; border: 1px solid #e5e5e0; border-radius: 10px; padding: 20px; margin-top: 14px; display: none; }
+    .sso-config h4 { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+    .sso-provider { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 8px; border: 1px solid #ddd; background: #fff; cursor: pointer; font-size: 14px; color: #1a1a18; margin-bottom: 8px; }
+    .sso-provider:hover { background: #E6F1FB; border-color: #185FA5; }
+    .sso-provider i { font-size: 18px; color: #185FA5; }
+    .login-footer { font-size: 12px; color: #aaa; text-align: center; margin-top: 20px; line-height: 2; }
+    .login-footer a { color: #185FA5; text-decoration: none; cursor: pointer; }
+    .alert { font-size: 13px; color: #A32D2D; background: #FCEBEB; border-radius: 8px; padding: 11px 14px; margin-top: 14px; display: none; }
+
+    /* STATIC PAGES */
+    .static-page { padding: 56px 32px; max-width: 780px; margin: 0 auto; }
+    .static-page h1 { font-size: 30px; font-weight: 700; color: #1a1a18; margin-bottom: 8px; }
+    .static-page .static-date { font-size: 13px; color: #999; margin-bottom: 36px; padding-bottom: 24px; border-bottom: 1px solid #e5e5e0; }
+    .static-page h2 { font-size: 17px; font-weight: 700; color: #1a1a18; margin: 36px 0 12px; }
+    .static-page h3 { font-size: 15px; font-weight: 600; color: #1a1a18; margin: 24px 0 8px; }
+    .static-page p { font-size: 15px; color: #555; line-height: 1.8; margin-bottom: 14px; }
+    .static-page ul { padding-left: 22px; margin-bottom: 16px; }
+    .static-page ul li { font-size: 15px; color: #555; line-height: 1.8; margin-bottom: 6px; }
+    .static-page a { color: #185FA5; text-decoration: none; }
+    .static-page a:hover { text-decoration: underline; }
+    .static-page .info-box { background: #E6F1FB; border: 1px solid #B5D4F4; border-radius: 10px; padding: 18px 20px; margin: 20px 0; font-size: 14px; color: #0C447C; line-height: 1.7; }
+
+    /* SUPPORT */
+    .support-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 24px 0 40px; }
+    .support-card { background: #fff; border: 1px solid #e5e5e0; border-radius: 12px; padding: 24px; }
+    .support-card i { font-size: 24px; color: #185FA5; margin-bottom: 12px; display: block; }
+    .support-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .support-card p { font-size: 13px; color: #666; line-height: 1.6; margin: 0; }
+    .support-card a { display: inline-block; margin-top: 10px; font-size: 13px; color: #185FA5; font-weight: 500; text-decoration: none; }
+    .faq-item { border-bottom: 1px solid #e5e5e0; padding: 18px 0; }
+    .faq-q { font-size: 15px; font-weight: 600; color: #1a1a18; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .faq-a { font-size: 14px; color: #555; line-height: 1.75; margin-top: 10px; display: none; }
+    .faq-a.open { display: block; }
+
+    /* COOKIE BANNER */
+    .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; background: #1a1a18; color: #fff; padding: 18px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; z-index: 9999; transform: translateY(100%); transition: transform 0.4s ease; }
+    .cookie-banner.visible { transform: translateY(0); }
+    .cookie-text { font-size: 13px; color: #ccc; line-height: 1.6; max-width: 700px; }
+    .cookie-text a { color: #85B7EB; text-decoration: underline; cursor: pointer; }
+    .cookie-actions { display: flex; gap: 10px; flex-shrink: 0; }
+    .cookie-accept { font-size: 13px; font-weight: 600; padding: 9px 20px; border-radius: 8px; background: #185FA5; color: #fff; border: none; cursor: pointer; }
+    .cookie-accept:hover { background: #0C447C; }
+    .cookie-decline { font-size: 13px; font-weight: 500; padding: 9px 20px; border-radius: 8px; background: transparent; color: #999; border: 1px solid #444; cursor: pointer; }
+    .cookie-decline:hover { background: #2a2a28; }
+
+    footer { padding: 28px 32px; border-top: 1px solid #e5e5e0; background: #fff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+    footer p { font-size: 13px; color: #999; }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-links a { font-size: 13px; color: #999; text-decoration: none; cursor: pointer; }
+    .footer-links a:hover { color: #185FA5; }
+
+    @media (max-width: 640px) {
       .nav { padding: 12px 16px; }
       .nav-links .nav-link { display: none; }
-      .hero, .section, .dashboard { padding: 32px 16px; }
-      .cta-bar { padding: 24px 16px; }
+      .hero, .section, .dashboard, .static-page { padding: 32px 16px; }
+      .cta-bar { padding: 32px 16px; }
       footer { padding: 20px 16px; }
+      .hero h1 { font-size: 26px; }
+      .cookie-banner { padding: 16px; }
     }
   </style>
 </head>
 <body>
 
+<!-- COOKIE BANNER -->
+<div class="cookie-banner" id="cookie-banner">
+  <div class="cookie-text">
+    We use essential cookies to keep our platform secure and functional. With your consent we also use analytics cookies to understand how clients use Rinvue. Your data is never sold. 
+    <a onclick="showPage('cookies')">Cookie policy</a> · <a onclick="showPage('privacy')">Privacy policy</a>
+  </div>
+  <div class="cookie-actions">
+    <button class="cookie-decline" onclick="dismissCookies('essential')">Essential only</button>
+    <button class="cookie-accept" onclick="dismissCookies('all')">Accept all</button>
+  </div>
+</div>
+
 <nav class="nav">
-  <div class="nav-logo">Rin<span>Vue</span></div>
+  <div class="nav-logo" onclick="showPage('business')">Rin<span>Vue</span></div>
   <div class="nav-links">
     <a class="nav-link" onclick="showPage('business')">Home</a>
-    <a class="nav-link" href="#services">Products</a>
-    <a class="nav-link" href="#about">About</a>
-    <a class="nav-link" href="#contact">Contact</a>
+    <a class="nav-link" onclick="showPage('business');scrollTo('pricing-section')">Pricing</a>
+    <a class="nav-link" onclick="showPage('compliance')">Compliance</a>
+    <a class="nav-link" onclick="showPage('support')">Support</a>
     <button class="nav-btn" onclick="showPage('login')">
-      <i class="ti ti-lock" style="font-size:13px;margin-right:5px;vertical-align:-1px"></i>Agent login
+      <i class="ti ti-lock" style="font-size:13px;margin-right:5px;vertical-align:-1px"></i>Client login
     </button>
   </div>
 </nav>
 
-<!-- BUSINESS PAGE -->
+<!-- ══════════ BUSINESS / HOME PAGE ══════════ -->
 <div id="page-business" class="page active">
 
+  <div class="data-ticker">
+    <span class="ticker-label"><span class="ticker-dot"></span>&nbsp;Live</span>
+    <div class="ticker-items" id="ticker-inner">
+      <span class="ticker-item">Connecting to EDRS feeds across 50 states + DC</span>
+      <span class="ticker-item">|</span>
+      <span class="ticker-item">SSDMF sync active</span>
+      <span class="ticker-item">|</span>
+      <span class="ticker-item">Data refreshed every 30 seconds</span>
+      <span class="ticker-item">|</span>
+      <span class="ticker-item">Insurers · Banks · Pension Funds · Healthcare · Government</span>
+      <span class="ticker-item">|</span>
+      <span class="ticker-item">Match latency &lt; 2s</span>
+      <span class="ticker-item">|</span>
+      <span class="ticker-item">SOC 2 Type II · HIPAA · GLBA · DMF Certified</span>
+      <span class="ticker-item">|</span>
+      <!-- duplicate for loop -->
+      <span class="ticker-item">Connecting to EDRS feeds across 50 states + DC</span>
+      <span class="ticker-item">|</span>
+      <span class="ticker-item">SSDMF sync active</span>
+      <span class="ticker-item">|</span>
+      <span class="ticker-item">Data refreshed every 30 seconds</span>
+      <span class="ticker-item">|</span>
+      <span class="ticker-item">Insurers · Banks · Pension Funds · Healthcare · Government</span>
+      <span class="ticker-item">|</span>
+      <span class="ticker-item">Match latency &lt; 2s</span>
+      <span class="ticker-item">|</span>
+      <span class="ticker-item">SOC 2 Type II · HIPAA · GLBA · DMF Certified</span>
+      <span class="ticker-item">|</span>
+    </div>
+  </div>
+
   <div class="hero">
-    <div class="hero-eyebrow">Life insurance solutions</div>
-    <h1>Protecting families with intelligent coverage</h1>
-    <p>We combine EDRS and SSDMF verification with automated claim processing to deliver faster, more accurate life insurance outcomes for carriers and beneficiaries alike.</p>
+    <div class="hero-eyebrow">Death verification infrastructure · EDRS &amp; SSDMF</div>
+    <h1>The <em>real-time death data</em> layer for every regulated industry</h1>
+    <p>Rinvue connects insurers, banks, pension funds, healthcare organizations, and government agencies directly to all 50 state EDRS feeds and the federal SSDMF — delivering verified match results or raw death records, refreshed every 30 seconds, through a single secure API.</p>
     <div class="hero-actions">
-      <a href="#contact" class="btn-primary">Explore our platform</a>
-      <button class="btn-secondary" onclick="showPage('login')">Agent portal →</button>
+      <a href="mailto:sales@rinvue.com" class="btn-primary">Request a demo</a>
+      <button class="btn-secondary" onclick="showPage('login')">Client portal →</button>
     </div>
   </div>
 
-  <div class="section" id="stats">
-    <div class="section-label">By the numbers</div>
-    <div class="stats">
-      <div class="stat"><div class="stat-val">98%</div><div class="stat-label">Verification accuracy</div></div>
-      <div class="stat"><div class="stat-val">&lt; 48h</div><div class="stat-label">Average claim resolution</div></div>
-      <div class="stat"><div class="stat-val">2.4M+</div><div class="stat-label">Claims processed</div></div>
-      <div class="stat"><div class="stat-val">150+</div><div class="stat-label">Carrier partners</div></div>
+  <div class="client-strip">
+    <p>Built for every regulated industry</p>
+    <div class="client-types">
+      <div class="client-type"><i class="ti ti-building-bank"></i> Life &amp; P&amp;C insurers</div>
+      <div class="client-type"><i class="ti ti-coin"></i> Banks &amp; lenders</div>
+      <div class="client-type"><i class="ti ti-chart-pie"></i> Pension funds</div>
+      <div class="client-type"><i class="ti ti-stethoscope"></i> Healthcare organizations</div>
+      <div class="client-type"><i class="ti ti-building-government"></i> Government agencies</div>
+      <div class="client-type"><i class="ti ti-scale"></i> Legal &amp; estate services</div>
     </div>
   </div>
 
-  <div class="section" id="services">
-    <div class="section-label">What we offer</div>
+  <!-- WHAT WE DO -->
+  <div class="section">
+    <div class="section-label">Platform</div>
+    <div class="section-title">One API. Every death registry in the country.</div>
+    <div class="section-sub">Rinvue is the infrastructure layer between your organization and the death data you need. We maintain live connections to all 50 state EDRS systems and the federal SSDMF, normalize the data into a consistent schema, and serve it via REST API — so you never have to manage a registry relationship again.</div>
     <div class="cards">
       <div class="card">
-        <div class="card-icon"><i class="ti ti-shield-check"></i></div>
-        <h3>Death verification</h3>
-        <p>Automated EDRS and SSDMF cross-checks confirm claims in real time, reducing manual review by 80%.</p>
+        <div class="card-icon"><i class="ti ti-building-bank"></i></div>
+        <h3>Life &amp; P&amp;C insurers</h3>
+        <p>Automate claims verification against EDRS and SSDMF. Reduce manual review by 80%, eliminate fraud, and accelerate payouts to beneficiaries.</p>
       </div>
       <div class="card">
-        <div class="card-icon"><i class="ti ti-api"></i></div>
-        <h3>API integration</h3>
-        <p>Seamless middleware connects your carrier systems to verification sources with a single REST API.</p>
+        <div class="card-icon"><i class="ti ti-coin"></i></div>
+        <h3>Banks &amp; lenders</h3>
+        <p>Detect deceased account holders to freeze assets, prevent fraudulent transactions, and comply with state dormant account regulations.</p>
       </div>
       <div class="card">
-        <div class="card-icon"><i class="ti ti-chart-bar"></i></div>
-        <h3>Claims dashboard</h3>
-        <p>Agents get a unified view of claim status, approvals, and flags across all active policies.</p>
+        <div class="card-icon"><i class="ti ti-chart-pie"></i></div>
+        <h3>Pension funds</h3>
+        <p>Eliminate benefit overpayments by verifying beneficiary status against federal and state death registries in near real time — every 30 seconds.</p>
+      </div>
+      <div class="card featured">
+        <div class="card-badge">High demand</div>
+        <div class="card-icon"><i class="ti ti-stethoscope"></i></div>
+        <h3>Healthcare organizations</h3>
+        <p>Reconcile patient records, manage estate billing, coordinate with insurers, and comply with CMS reporting requirements following a patient death.</p>
       </div>
       <div class="card">
-        <div class="card-icon"><i class="ti ti-lock"></i></div>
-        <h3>Secure & compliant</h3>
-        <p>SOC 2 Type II certified with HIPAA-aligned data handling and end-to-end encryption.</p>
+        <div class="card-icon"><i class="ti ti-building-government"></i></div>
+        <h3>Government agencies</h3>
+        <p>Verify benefit recipients, prevent improper payments, and satisfy federal reporting obligations with certified DMF access and EDRS integration.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon"><i class="ti ti-scale"></i></div>
+        <h3>Legal &amp; estate services</h3>
+        <p>Verify decedent status for probate proceedings, estate administration, and beneficiary identification with audit-ready documentation.</p>
       </div>
     </div>
   </div>
 
-  <div class="section" id="about">
-    <div class="section-label">About us</div>
-    <p style="font-size:15px;color:#555;max-width:600px;line-height:1.75;">
-      Rinvue was founded to modernize how life insurance carriers process and verify claims. Our platform integrates directly with federal and state death registries, enabling carriers to resolve claims accurately and compassionately — at scale.
-    </p>
+  <!-- 50 STATE COVERAGE -->
+  <div class="section" style="background:#f5f5f3;border-top:1px solid #e5e5e0;">
+    <div class="section-label">Registry coverage</div>
+    <div class="section-title">All 50 states + DC — direct EDRS integration</div>
+    <div class="section-sub">Rinvue maintains data sharing agreements with vital records offices in all 50 states and the District of Columbia, plus a direct certified connection to the federal SSDMF. Every state feed is monitored 24/7 with automated failover.</div>
+
+    <div class="state-legend">
+      <div class="state-legend-item"><div class="legend-dot" style="background:#A8D080;border:1px solid #7BAF50;"></div> EDRS + SSDMF live</div>
+      <div class="state-legend-item"><div class="legend-dot" style="background:#e5e5e0;"></div> SSDMF only (EDRS pending)</div>
+    </div>
+
+    <div class="state-grid">
+      <div class="state-item live">Alabama</div>
+      <div class="state-item live">Alaska</div>
+      <div class="state-item live">Arizona</div>
+      <div class="state-item live">Arkansas</div>
+      <div class="state-item live">California</div>
+      <div class="state-item live">Colorado</div>
+      <div class="state-item live">Connecticut</div>
+      <div class="state-item live">Delaware</div>
+      <div class="state-item live">Florida</div>
+      <div class="state-item live">Georgia</div>
+      <div class="state-item live">Hawaii</div>
+      <div class="state-item live">Idaho</div>
+      <div class="state-item live">Illinois</div>
+      <div class="state-item live">Indiana</div>
+      <div class="state-item live">Iowa</div>
+      <div class="state-item live">Kansas</div>
+      <div class="state-item live">Kentucky</div>
+      <div class="state-item live">Louisiana</div>
+      <div class="state-item live">Maine</div>
+      <div class="state-item live">Maryland</div>
+      <div class="state-item live">Massachusetts</div>
+      <div class="state-item live">Michigan</div>
+      <div class="state-item live">Minnesota</div>
+      <div class="state-item live">Mississippi</div>
+      <div class="state-item live">Missouri</div>
+      <div class="state-item live">Montana</div>
+      <div class="state-item live">Nebraska</div>
+      <div class="state-item live">Nevada</div>
+      <div class="state-item live">New Hampshire</div>
+      <div class="state-item live">New Jersey</div>
+      <div class="state-item live">New Mexico</div>
+      <div class="state-item live">New York</div>
+      <div class="state-item live">North Carolina</div>
+      <div class="state-item live">North Dakota</div>
+      <div class="state-item live">Ohio</div>
+      <div class="state-item live">Oklahoma</div>
+      <div class="state-item live">Oregon</div>
+      <div class="state-item live">Pennsylvania</div>
+      <div class="state-item live">Rhode Island</div>
+      <div class="state-item live">South Carolina</div>
+      <div class="state-item live">South Dakota</div>
+      <div class="state-item live">Tennessee</div>
+      <div class="state-item live">Texas</div>
+      <div class="state-item live">Utah</div>
+      <div class="state-item live">Vermont</div>
+      <div class="state-item live">Virginia</div>
+      <div class="state-item live">Washington</div>
+      <div class="state-item live">West Virginia</div>
+      <div class="state-item live">Wisconsin</div>
+      <div class="state-item live">Wyoming</div>
+      <div class="state-item live">D.C.</div>
+    </div>
+    <p style="font-size:12px;color:#999;margin-top:16px;">Federal SSDMF: <strong style="color:#3B6D11;">Live — certified access</strong> &nbsp;·&nbsp; Data refreshed every 30 seconds &nbsp;·&nbsp; All state agreements current as of 2026</p>
+  </div>
+
+  <!-- PRICING -->
+  <div class="section" id="pricing-section">
+    <div class="section-label">Data access tiers</div>
+    <div class="section-title">Match results or raw records — your choice</div>
+    <div class="section-sub">All clients receive verified match results by default. Organizations that require the underlying death certificate data can add Raw Data tier access at additional cost, subject to enhanced compliance requirements.</div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-name">Match tier</div>
+        <div class="pricing-headline">Match results only</div>
+        <div class="pricing-desc">A verified match/no-match response per query. No raw PII from registries is transmitted. Included in all plans.</div>
+        <ul class="pricing-features">
+          <li><i class="ti ti-check"></i><span>EDRS match result — confirmed / no record / pending</span></li>
+          <li><i class="ti ti-check"></i><span>SSDMF match with date of death</span></li>
+          <li><i class="ti ti-check"></i><span>Confidence score 0–100</span></li>
+          <li><i class="ti ti-check"></i><span>30-second data refresh</span></li>
+          <li><i class="ti ti-check"></i><span>REST API + webhook push</span></li>
+          <li><i class="ti ti-check"></i><span>All 50 states + DC + federal SSDMF</span></li>
+          <li><i class="ti ti-check"></i><span>Batch up to 100k records/day</span></li>
+          <li class="locked"><i class="ti ti-lock"></i><span>Raw death certificate data <span class="pricing-tag">Raw tier</span></span></li>
+        </ul>
+        <a href="mailto:sales@rinvue.com" class="btn-secondary" style="display:block;text-align:center;padding:11px;text-decoration:none;">Contact sales</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-name">Raw data tier</div>
+        <div class="pricing-headline">Full registry access</div>
+        <div class="pricing-desc">Everything in Match, plus the complete underlying death record fields from EDRS and SSDMF — available at additional cost with enhanced compliance requirements.</div>
+        <ul class="pricing-features">
+          <li><i class="ti ti-check"></i><span>Everything in Match tier</span></li>
+          <li><i class="ti ti-check"></i><span>Full EDRS death certificate fields</span></li>
+          <li><i class="ti ti-check"></i><span>SSDMF raw record — name, DOB, DOD, ZIP</span></li>
+          <li><i class="ti ti-check"></i><span>Cause of death classification (where available)</span></li>
+          <li><i class="ti ti-check"></i><span>Historical lookback up to 10 years</span></li>
+          <li><i class="ti ti-check"></i><span>Signed BAA and enhanced DPA required</span></li>
+          <li><i class="ti ti-check"></i><span>Encrypted secure data room delivery</span></li>
+          <li><i class="ti ti-check"></i><span>Dedicated compliance onboarding</span></li>
+        </ul>
+        <a href="mailto:sales@rinvue.com" class="btn-primary" style="display:block;text-align:center;padding:11px;text-decoration:none;">Contact sales for pricing</a>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-name">Enterprise</div>
+        <div class="pricing-headline">Custom deployment</div>
+        <div class="pricing-desc">For large insurers, government agencies, or organizations needing private cloud, on-premise mirroring, or custom SLAs.</div>
+        <ul class="pricing-features">
+          <li><i class="ti ti-check"></i><span>Everything in Raw tier</span></li>
+          <li><i class="ti ti-check"></i><span>Private cloud or on-premise option</span></li>
+          <li><i class="ti ti-check"></i><span>Sub-30s custom refresh intervals</span></li>
+          <li><i class="ti ti-check"></i><span>Dedicated infrastructure per client</span></li>
+          <li><i class="ti ti-check"></i><span>Named account manager + guaranteed SLAs</span></li>
+          <li><i class="ti ti-check"></i><span>Federal / government procurement eligible</span></li>
+          <li><i class="ti ti-check"></i><span>FedRAMP Ready pathway included</span></li>
+          <li><i class="ti ti-check"></i><span>Co-branded portal option</span></li>
+        </ul>
+        <a href="mailto:sales@rinvue.com" class="btn-secondary" style="display:block;text-align:center;padding:11px;text-decoration:none;">Talk to enterprise sales</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECURITY FRAMEWORK -->
+  <div class="section" id="security-section" style="background:#f5f5f3;border-top:1px solid #e5e5e0;">
+    <div class="section-label">Security framework</div>
+    <div class="section-title">Enterprise-grade security built for sensitive PII</div>
+    <div class="section-sub">Death registry data contains some of the most sensitive personally identifiable information in existence. Rinvue's architecture is built on zero-trust principles, defense-in-depth, and continuous compliance monitoring.</div>
+    <div class="security-grid">
+      <div class="security-item"><i class="ti ti-lock"></i><h4>Encryption</h4><p>AES-256 at rest. TLS 1.3 in transit. Raw data delivered via encrypted secure data rooms only. Encryption keys rotated every 90 days.</p></div>
+      <div class="security-item"><i class="ti ti-shield-check"></i><h4>Zero-trust access</h4><p>No implicit trust. Every API call requires signed JWT tokens, IP allowlisting, and RBAC permissions validated on each individual request.</p></div>
+      <div class="security-item"><i class="ti ti-users"></i><h4>Identity &amp; SSO</h4><p>SAML 2.0 / OIDC SSO via Okta, Azure AD, Google Workspace, OneLogin, and Ping Identity. MFA enforced on all accounts.</p></div>
+      <div class="security-item"><i class="ti ti-file-analytics"></i><h4>Audit logging</h4><p>Immutable audit trail for every query, export, and data access event. Retained 7 years. Exportable for regulatory review on demand.</p></div>
+      <div class="security-item"><i class="ti ti-server"></i><h4>Infrastructure</h4><p>AWS GovCloud with dedicated VPCs per enterprise client. 99.99% uptime SLA. Multi-region failover in under 60 seconds.</p></div>
+      <div class="security-item"><i class="ti ti-search"></i><h4>Penetration testing</h4><p>Annual third-party pen tests. Continuous vulnerability scanning via DAST/SAST pipelines. Active bug bounty program.</p></div>
+      <div class="security-item"><i class="ti ti-refresh"></i><h4>30-second refresh</h4><p>Data pipelines monitored with automated circuit breakers. Stale data alerts within 60 seconds of any registry sync failure.</p></div>
+      <div class="security-item"><i class="ti ti-eye-off"></i><h4>Data minimization</h4><p>Match-tier clients never receive raw PII. Raw-tier access is field-scoped, audited, and only available under an active DPA and BAA.</p></div>
+    </div>
+    <div class="cert-row">
+      <span class="cert-badge">SOC 2 Type II</span>
+      <span class="cert-badge">HIPAA aligned</span>
+      <span class="cert-badge">CCPA compliant</span>
+      <span class="cert-badge">GLBA aligned</span>
+      <span class="cert-badge">DMF certified</span>
+      <span class="cert-badge">ISO 27001 in progress</span>
+      <span class="cert-badge">FedRAMP Ready</span>
+      <span class="cert-badge">AWS GovCloud</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="section">
+    <div class="section-label">About Rinvue</div>
+    <div class="section-title">We are the infrastructure — not just a vendor</div>
+    <div class="section-sub">Rinvue was founded to solve a fragmented, manual problem: organizations across every regulated industry — insurers, banks, pension funds, healthcare systems, and government agencies — all need to verify death events, but each one was building its own registry connections, managing its own state agreements, and absorbing its own compliance burden.</div>
+    <p style="font-size:15px;color:#555;max-width:700px;line-height:1.8;">We built Rinvue as shared, certified infrastructure. One platform that absorbs the complexity of 50+ registry relationships, federal DMF certification, data normalization, 30-second refresh pipelines, and enterprise security — so your organization can focus on what it does with that information, not on how to get it.</p>
+    <p style="font-size:15px;color:#555;max-width:700px;line-height:1.8;margin-top:14px;">Whether you are processing life insurance claims, preventing fraudulent bank transactions, eliminating pension overpayments, reconciling patient records, or verifying benefit recipients, Rinvue provides the same verified, real-time death data through the same secure API — with the compliance stack already in place.</p>
   </div>
 
   <div class="cta-bar" id="contact">
     <div>
-      <h2>Ready to streamline your claims pipeline?</h2>
-      <p>Contact our team to schedule a demo or request API credentials.</p>
+      <h2>Ready to connect to real-time death registry data?</h2>
+      <p>Request a demo, API sandbox credentials, or talk to our compliance team.</p>
     </div>
-    <a href="mailto:sales@rinvue.com" class="btn-primary">Get in touch</a>
+    <a href="mailto:sales@rinvue.com" class="btn-white">Get in touch</a>
   </div>
 
   <footer>
     <p>© 2026 Rinvue Inc. All rights reserved.</p>
     <div class="footer-links">
-      <a href="#">Privacy policy</a>
-      <a href="#">Terms of service</a>
-      <a href="#">Support</a>
-      <a onclick="showPage('login')" style="cursor:pointer">Agent login</a>
+      <a onclick="showPage('compliance')">Compliance</a>
+      <a onclick="showPage('privacy')">Privacy policy</a>
+      <a onclick="showPage('terms')">Terms of service</a>
+      <a onclick="showPage('cookies')">Cookie policy</a>
+      <a onclick="showPage('support')">Support</a>
+      <a onclick="showPage('login')">Client login</a>
     </div>
   </footer>
-
 </div>
 
-<!-- LOGIN PAGE -->
+<!-- ══════════ COMPLIANCE PAGE ══════════ -->
+<div id="page-compliance" class="page">
+  <div style="padding:56px 32px 24px;background:#fff;border-bottom:1px solid #e5e5e0;">
+    <div class="section-label">Legal &amp; compliance</div>
+    <div class="section-title" style="max-width:660px;">The compliance stack a death-matching SaaS must have before approaching large insurers or government clients</div>
+    <p style="font-size:15px;color:#666;max-width:660px;line-height:1.75;margin-top:8px;">Every legal, regulatory, and contractual requirement Rinvue has implemented — and that any death-data SaaS must complete — before regulated institutions will sign contracts.</p>
+  </div>
+  <div style="padding:32px;background:#fff;">
+    <div class="table-wrap">
+      <div class="table-header">
+        <h3>Full compliance stack — 24 requirements</h3>
+        <span style="font-size:12px;color:#999;">6 categories</span>
+      </div>
+      <table class="compliance-table">
+        <thead><tr><th style="width:20%">Requirement</th><th style="width:13%">Category</th><th style="width:12%">Priority</th><th>What it covers and why it matters</th></tr></thead>
+        <tbody>
+          <tr><td><strong>SOC 2 Type II</strong></td><td>Security cert</td><td><span class="comp-status comp-required">Required</span></td><td>Audited proof that security controls operate effectively over 6–12 months. Large insurers will not sign without it. Type II (not just Type I) is the standard they demand.</td></tr>
+          <tr><td><strong>ISO 27001</strong></td><td>Security cert</td><td><span class="comp-status comp-critical">Critical</span></td><td>International information security standard. Required by European carriers and government clients. Demonstrates systematic risk management around sensitive PII.</td></tr>
+          <tr><td><strong>FedRAMP Ready / Authorized</strong></td><td>Security cert</td><td><span class="comp-status comp-critical">Critical</span></td><td>Mandatory for any federal agency contract. Process takes 12–18 months. FedRAMP Authorized is required before agencies can sign. Start early.</td></tr>
+          <tr><td><strong>Annual pen testing</strong></td><td>Security cert</td><td><span class="comp-status comp-required">Required</span></td><td>Third-party pen test reports are required by enterprise procurement. Must cover API endpoints, authentication flows, and data export paths.</td></tr>
+          <tr><td><strong>Data Processing Agreement (DPA)</strong></td><td>Data agreement</td><td><span class="comp-status comp-required">Required</span></td><td>Required for every client sharing personal data with Rinvue. Defines processing scope, subprocessor obligations, and breach notification timelines (72h under GDPR).</td></tr>
+          <tr><td><strong>Business Associate Agreement (BAA)</strong></td><td>Data agreement</td><td><span class="comp-status comp-required">Required</span></td><td>Mandatory under HIPAA for all healthcare clients. Covers PHI handling, permitted uses, and breach reporting. Required before any healthcare org can connect.</td></tr>
+          <tr><td><strong>Subprocessor agreements</strong></td><td>Data agreement</td><td><span class="comp-status comp-required">Required</span></td><td>Every vendor touching client data (AWS, monitoring tools, registry APIs) must have a signed subprocessor DPA. Clients have the right to review the list.</td></tr>
+          <tr><td><strong>Data retention &amp; deletion policy</strong></td><td>Data agreement</td><td><span class="comp-status comp-required">Required</span></td><td>Documented schedules for how long data is retained per tier and how it is purged. Insurance regulations typically mandate 7-year minimum retention.</td></tr>
+          <tr><td><strong>CCPA / CPRA (California)</strong></td><td>Privacy law</td><td><span class="comp-status comp-required">Required</span></td><td>Applies to any company handling California residents' data. Requires data subject rights, a public privacy policy, and opt-out mechanisms. Most large insurers operate in CA.</td></tr>
+          <tr><td><strong>GLBA Safeguards Rule</strong></td><td>Privacy law</td><td><span class="comp-status comp-required">Required</span></td><td>Governs financial institutions' NPI handling. Banks and insurers under GLBA must ensure their vendors meet its requirements: documented security program, risk assessments, training.</td></tr>
+          <tr><td><strong>HIPAA Privacy &amp; Security Rules</strong></td><td>Privacy law</td><td><span class="comp-status comp-required">Required</span></td><td>Applies when handling PHI from healthcare clients. Must be documented in internal policies with administrative, physical, and technical safeguards in place.</td></tr>
+          <tr><td><strong>State death data laws (50 states)</strong></td><td>Privacy law</td><td><span class="comp-status comp-required">Required</span></td><td>Each state controls its EDRS data independently. Separate data sharing agreements with each vital records office are required. Rules vary — some states restrict cause-of-death fields.</td></tr>
+          <tr><td><strong>GDPR (EU clients)</strong></td><td>Privacy law</td><td><span class="comp-status comp-recommended">Recommended</span></td><td>Required for EU-based clients or data on EU residents. Stricter than US frameworks — requires lawful basis, DPO appointment, and Standard Contractual Clauses for transfers.</td></tr>
+          <tr><td><strong>SSA DMF Certification</strong></td><td>Registry access</td><td><span class="comp-status comp-required">Required</span></td><td>Full SSDMF access (not just the public limited file) requires SSA certification under the Bipartisan Budget Act of 2013. Annual recertification. Must demonstrate legitimate fraud prevention purpose.</td></tr>
+          <tr><td><strong>State EDRS agreements (50 states)</strong></td><td>Registry access</td><td><span class="comp-status comp-required">Required</span></td><td>Separate data sharing agreement with each state's vital records authority. Requires proof of use case, security assessment, and named authorized users. Full 50-state coverage is a competitive differentiator.</td></tr>
+          <tr><td><strong>DMF re-disclosure controls</strong></td><td>Registry access</td><td><span class="comp-status comp-required">Required</span></td><td>SSA certification includes strict re-disclosure restrictions. Raw DMF records cannot be passed to clients without their own certification — the legal basis for the two-tier data model.</td></tr>
+          <tr><td><strong>Incident response plan</strong></td><td>Operations</td><td><span class="comp-status comp-required">Required</span></td><td>Documented, tested plan covering detection, containment, client notification (72h), and post-incident review. Large insurers and government clients review this during due diligence.</td></tr>
+          <tr><td><strong>Business continuity / DR plan</strong></td><td>Operations</td><td><span class="comp-status comp-required">Required</span></td><td>Documented RTO and RPO with annual DR testing. For 30-second refresh SLAs, DR architecture must demonstrate sub-60-second failover. Government contracts require documented test results.</td></tr>
+          <tr><td><strong>Vendor risk management program</strong></td><td>Operations</td><td><span class="comp-status comp-critical">Critical</span></td><td>Large clients conduct vendor risk assessments using VSA, SIG, or CAIQ questionnaires. A documented program covering your own subprocessors accelerates procurement significantly.</td></tr>
+          <tr><td><strong>Employee security training</strong></td><td>Operations</td><td><span class="comp-status comp-required">Required</span></td><td>Annual security awareness training, background checks for data-access employees, and documented access provisioning/de-provisioning. Required for SOC 2 and HIPAA.</td></tr>
+          <tr><td><strong>Cyber liability insurance</strong></td><td>Contractual</td><td><span class="comp-status comp-required">Required</span></td><td>Minimum $5M–$10M cyber liability coverage required in most enterprise MSAs. Covers breach notification costs, regulatory fines, and third-party claims. Certificates required before signing.</td></tr>
+          <tr><td><strong>E&amp;O / Professional liability</strong></td><td>Contractual</td><td><span class="comp-status comp-critical">Critical</span></td><td>Covers claims from match inaccuracies (e.g. false positives delaying legitimate claims). Minimum $2M–$5M typical for this data category. Required in most enterprise SaaS contracts.</td></tr>
+          <tr><td><strong>Master Service Agreement (MSA)</strong></td><td>Contractual</td><td><span class="comp-status comp-required">Required</span></td><td>Enterprise-grade MSA covering indemnification, IP ownership, data ownership, SLA remedies, and audit rights. Drafted by counsel experienced in data services law.</td></tr>
+          <tr><td><strong>Service Level Agreement (SLA)</strong></td><td>Contractual</td><td><span class="comp-status comp-required">Required</span></td><td>Documented 99.99% uptime commitment, 30-second refresh guarantee, and remedies for breach. Government contracts require more stringent SLA terms and annual reporting.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:28px;padding:22px 24px;background:#E6F1FB;border-radius:12px;border:1px solid #B5D4F4;">
+      <p style="font-size:14px;color:#185FA5;line-height:1.7;margin:0;"><i class="ti ti-info-circle" style="margin-right:6px;vertical-align:-2px"></i>This framework is for informational purposes. Rinvue works with specialized counsel in insurance, financial services, and health data law. Contact <a href="mailto:legal@rinvue.com" style="color:#0C447C;font-weight:600;">legal@rinvue.com</a> to discuss our compliance onboarding process for new clients.</p>
+    </div>
+  </div>
+  <footer>
+    <p>© 2026 Rinvue Inc. All rights reserved.</p>
+    <div class="footer-links">
+      <a onclick="showPage('compliance')">Compliance</a>
+      <a onclick="showPage('privacy')">Privacy policy</a>
+      <a onclick="showPage('terms')">Terms of service</a>
+      <a onclick="showPage('cookies')">Cookie policy</a>
+      <a onclick="showPage('support')">Support</a>
+      <a onclick="showPage('login')">Client login</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════ LOGIN ══════════ -->
 <div id="page-login" class="page">
   <div class="login-wrap">
     <div class="login-card">
       <div class="login-logo"><i class="ti ti-shield-check"></i></div>
-      <div class="login-title">Agent portal</div>
-      <div class="login-sub">Sign in to access your claims dashboard</div>
-
+      <div class="login-title">Client portal</div>
+      <div class="login-sub">Sign in with your organization's Microsoft account</div>
       <div class="field">
-        <label for="agent-id">Agent ID</label>
-        <input type="text" id="agent-id" placeholder="e.g. AGT-00421" autocomplete="username">
+        <label>Organization type</label>
+        <select id="org-type">
+          <option value="">Select your organization type</option>
+          <option value="Life / P&C Insurer">Life / P&amp;C Insurer</option>
+          <option value="Bank / Lender">Bank / Lender</option>
+          <option value="Pension Fund">Pension Fund</option>
+          <option value="Healthcare Organization">Healthcare Organization</option>
+          <option value="Government Agency">Government Agency</option>
+          <option value="Legal / Estate Services">Legal / Estate Services</option>
+        </select>
       </div>
-      <div class="field">
-        <div class="field-row">
-          <label for="password" style="margin:0">Password</label>
-          <a href="#" class="forgot" onclick="showForgot()">Forgot password?</a>
-        </div>
-        <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
-      </div>
-
-      <button class="login-btn" onclick="handleLogin()">Sign in</button>
-
-      <div class="alert" id="login-alert">
-        <i class="ti ti-alert-circle" style="font-size:14px;margin-right:6px;vertical-align:-2px"></i>
-        Invalid credentials. Please check your Agent ID and password.
-      </div>
-
-      <div class="login-divider"><hr><span>or</span><hr></div>
-
-      <button class="sso-btn" onclick="handleSSO()">
-        <i class="ti ti-building" style="font-size:17px"></i>
-        Sign in with carrier SSO
+      <button class="login-btn" onclick="handleLogin()" style="margin-top:8px;">
+        <i class="ti ti-brand-azure" style="font-size:16px;margin-right:8px;vertical-align:-2px"></i>Sign in with Microsoft
       </button>
-
+      <div class="alert" id="login-alert">Sign-in failed. Please try again or contact support@rinvue.com</div>
+      <div class="login-divider"><hr><span>other providers</span><hr></div>
+      <button class="sso-btn" onclick="toggleSSO()">
+        <i class="ti ti-building" style="font-size:17px"></i> Sign in with carrier SSO
+      </button>
+      <div class="sso-config" id="sso-panel">
+        <h4>Choose your identity provider</h4>
+        <div class="sso-provider" onclick="launchSSO('Okta')"><i class="ti ti-circle-key"></i> Okta</div>
+        <div class="sso-provider" onclick="launchSSO('Google Workspace')"><i class="ti ti-brand-google"></i> Google Workspace</div>
+        <div class="sso-provider" onclick="launchSSO('OneLogin')"><i class="ti ti-login"></i> OneLogin</div>
+        <div class="sso-provider" onclick="launchSSO('Ping Identity')"><i class="ti ti-fingerprint"></i> Ping Identity</div>
+        <p style="font-size:12px;color:#aaa;margin-top:10px;">Don't see your provider? <a href="mailto:integrations@rinvue.com" style="color:#185FA5;">Contact integrations.</a></p>
+      </div>
       <div class="login-footer">
-        Need access? <a href="mailto:sales@rinvue.com">Contact your administrator</a><br>
-        <a onclick="showPage('business')" style="cursor:pointer">← Back to main site</a>
+        Need access? <a href="mailto:sales@rinvue.com">Contact your account manager</a><br>
+        <a onclick="showPage('business')">← Back to main site</a>
       </div>
     </div>
   </div>
 </div>
 
-<!-- AGENT DASHBOARD (shown after login) -->
+<!-- ══════════ DASHBOARD ══════════ -->
 <div id="page-dashboard" class="page">
   <div class="dashboard">
     <div class="dashboard-header">
       <div>
-        <h2>Claims dashboard</h2>
-        <div class="welcome" id="welcome-msg">Welcome back, Agent</div>
+        <h2>Verification dashboard</h2>
+        <div class="welcome" id="welcome-msg">Welcome back</div>
       </div>
-      <button class="logout-btn" onclick="handleLogout()">
-        <i class="ti ti-logout" style="font-size:14px;margin-right:5px;vertical-align:-1px"></i>Sign out
-      </button>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <span id="tier-badge" style="font-size:12px;font-weight:700;padding:5px 12px;border-radius:6px;background:#E6F1FB;color:#0C447C;"></span>
+        <button class="logout-btn" onclick="handleLogout()">
+          <i class="ti ti-logout" style="font-size:14px;margin-right:5px;vertical-align:-1px"></i>Sign out
+        </button>
+      </div>
     </div>
-
+    <div class="refresh-bar">
+      <span class="refresh-dot"></span>
+      <span>Live — refreshing every 30 seconds</span>
+      <div class="refresh-progress"><div class="refresh-fill" id="refresh-fill" style="width:100%"></div></div>
+      <span id="refresh-countdown">30s</span>
+    </div>
     <div class="dash-stats">
-      <div class="dash-stat blue"><div class="dash-stat-val">142</div><div class="dash-stat-label">Active claims</div></div>
-      <div class="dash-stat green"><div class="dash-stat-val">38</div><div class="dash-stat-label">Approved today</div></div>
-      <div class="dash-stat amber"><div class="dash-stat-val">17</div><div class="dash-stat-label">Pending review</div></div>
-      <div class="dash-stat red"><div class="dash-stat-val">4</div><div class="dash-stat-label">Flagged</div></div>
+      <div class="dash-stat blue"><div class="dash-stat-val" id="stat-active">—</div><div class="dash-stat-label">Active queries</div></div>
+      <div class="dash-stat green"><div class="dash-stat-val" id="stat-matched">—</div><div class="dash-stat-label">Confirmed matches</div></div>
+      <div class="dash-stat amber"><div class="dash-stat-val" id="stat-pending">—</div><div class="dash-stat-label">Pending sync</div></div>
+      <div class="dash-stat red"><div class="dash-stat-val" id="stat-flagged">—</div><div class="dash-stat-label">No record / flagged</div></div>
     </div>
-
+    <div class="data-tabs">
+      <button class="data-tab active" onclick="switchTab('match',this)">Match results</button>
+      <button class="data-tab" id="raw-tab" onclick="switchTab('raw',this)" style="opacity:0.45;" title="Raw Data tier required">Raw data</button>
+    </div>
     <div class="table-wrap">
       <div class="table-header">
-        <h3>Recent claims</h3>
-        <button class="logout-btn" style="font-size:12px">Export CSV</button>
+        <h3 id="table-title">Recent match results</h3>
+        <button class="logout-btn" style="font-size:12px" onclick="exportCSV()"><i class="ti ti-download" style="font-size:13px;margin-right:4px;vertical-align:-1px"></i>Export CSV</button>
       </div>
-      <table class="claims-table">
-        <thead>
-          <tr>
-            <th>Claim ID</th>
-            <th>Policy holder</th>
-            <th>Filed date</th>
-            <th>EDRS</th>
-            <th>SSDMF</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>CLM-20483</td>
-            <td>Margaret L. Torres</td>
-            <td>May 15, 2026</td>
-            <td>✓ Confirmed</td>
-            <td>✓ Confirmed</td>
-            <td><span class="status-badge status-approved">Approved</span></td>
-          </tr>
-          <tr>
-            <td>CLM-20484</td>
-            <td>Harold B. Chen</td>
-            <td>May 16, 2026</td>
-            <td>✓ Confirmed</td>
-            <td>⏳ Pending</td>
-            <td><span class="status-badge status-pending">On hold</span></td>
-          </tr>
-          <tr>
-            <td>CLM-20485</td>
-            <td>Sandra P. Williams</td>
-            <td>May 16, 2026</td>
-            <td>✗ No record</td>
-            <td>✗ No record</td>
-            <td><span class="status-badge status-flagged">Flagged</span></td>
-          </tr>
-          <tr>
-            <td>CLM-20486</td>
-            <td>James R. Okafor</td>
-            <td>May 17, 2026</td>
-            <td>✓ Confirmed</td>
-            <td>✓ Confirmed</td>
-            <td><span class="status-badge status-approved">Approved</span></td>
-          </tr>
-          <tr>
-            <td>CLM-20487</td>
-            <td>Dorothy K. Nguyen</td>
-            <td>May 17, 2026</td>
-            <td>⏳ Pending</td>
-            <td>⏳ Pending</td>
-            <td><span class="status-badge status-review">In review</span></td>
-          </tr>
-        </tbody>
-      </table>
+      <div id="match-view">
+        <table class="claims-table">
+          <thead><tr><th>Query ID</th><th>Subject</th><th>Submitted</th><th>EDRS</th><th>SSDMF</th><th>Confidence</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>QRY-20483</td><td>M. Torres</td><td>Jun 9, 2026 09:14</td><td>✓ Confirmed</td><td>✓ Confirmed</td><td>99</td><td><span class="status-badge status-approved">Matched</span></td></tr>
+            <tr><td>QRY-20484</td><td>H. Chen</td><td>Jun 9, 2026 09:18</td><td>✓ Confirmed</td><td>⏳ Pending</td><td>72</td><td><span class="status-badge status-pending">On hold</span></td></tr>
+            <tr><td>QRY-20485</td><td>S. Williams</td><td>Jun 9, 2026 09:22</td><td>✗ No record</td><td>✗ No record</td><td>12</td><td><span class="status-badge status-flagged">No match</span></td></tr>
+            <tr><td>QRY-20486</td><td>J. Okafor</td><td>Jun 9, 2026 09:31</td><td>✓ Confirmed</td><td>✓ Confirmed</td><td>97</td><td><span class="status-badge status-approved">Matched</span></td></tr>
+            <tr><td>QRY-20487</td><td>D. Nguyen</td><td>Jun 9, 2026 09:45</td><td>⏳ Pending</td><td>⏳ Pending</td><td>—</td><td><span class="status-badge status-review">In review</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="raw-view" style="display:none;">
+        <table class="claims-table">
+          <thead><tr><th>Query ID</th><th>Full name</th><th>SSN masked</th><th>DOB</th><th>DOD</th><th>State</th><th>Cert #</th><th>Source</th></tr></thead>
+          <tbody id="raw-tbody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
 
+<!-- ══════════ PRIVACY POLICY ══════════ -->
+<div id="page-privacy" class="page">
+  <div class="static-page">
+    <h1>Privacy policy</h1>
+    <p class="static-date">Effective date: January 1, 2026 &nbsp;·&nbsp; Last updated: January 1, 2026</p>
+
+    <div class="info-box">This policy applies to Rinvue Inc. and covers how we collect, use, protect, and disclose information in connection with our death verification platform and website. If you have questions, contact <a href="mailto:privacy@rinvue.com">privacy@rinvue.com</a>.</div>
+
+    <h2>1. Who we are</h2>
+    <p>Rinvue Inc. ("Rinvue," "we," "us," "our") is a software-as-a-service company headquartered in Houston, Texas. We operate a death verification platform that connects regulated organizations to Electronic Death Registration System (EDRS) data from all 50 states and the District of Columbia, and to the federal Social Security Death Master File (SSDMF).</p>
+
+    <h2>2. Information we collect</h2>
+    <h3>From client organizations</h3>
+    <ul>
+      <li>Organization name, address, and industry classification</li>
+      <li>Authorized user names, work email addresses, and job titles</li>
+      <li>API credentials and access log data</li>
+      <li>Billing and contract information</li>
+    </ul>
+    <h3>Query data submitted through the platform</h3>
+    <ul>
+      <li>Names, dates of birth, Social Security numbers, and other identifying information submitted by clients for verification purposes</li>
+      <li>Match results and confidence scores generated by our platform</li>
+      <li>Timestamps and metadata for each verification query</li>
+    </ul>
+    <h3>Website visitors</h3>
+    <ul>
+      <li>IP address, browser type, and operating system</li>
+      <li>Pages visited and time spent on the site</li>
+      <li>Cookie identifiers (see our Cookie Policy for details)</li>
+    </ul>
+
+    <h2>3. How we use your information</h2>
+    <ul>
+      <li>To provide, operate, and improve our death verification services</li>
+      <li>To authenticate authorized client users and manage account access</li>
+      <li>To process verification queries against EDRS and SSDMF data sources</li>
+      <li>To generate and maintain immutable audit logs for regulatory compliance</li>
+      <li>To communicate with you about your account, service updates, and support requests</li>
+      <li>To comply with legal obligations including SSA DMF certification requirements, HIPAA, GLBA, and applicable state laws</li>
+      <li>To detect and prevent fraudulent or unauthorized access to our platform</li>
+    </ul>
+    <p>We do not use client query data for any purpose beyond the contracted verification service. We do not sell, rent, or trade personal information to third parties for marketing purposes.</p>
+
+    <h2>4. Legal basis for processing</h2>
+    <p>We process personal data on the following legal bases: performance of a contract with your organization; compliance with legal obligations (including SSA, HIPAA, GLBA, and state vital records law); legitimate interests in operating a secure and reliable verification platform; and, where applicable, your consent.</p>
+
+    <h2>5. Data sharing and disclosure</h2>
+    <p>We share data only in the following circumstances:</p>
+    <ul>
+      <li><strong>State EDRS systems and SSA SSDMF:</strong> Query data is transmitted to registry systems solely for verification purposes under our data sharing agreements</li>
+      <li><strong>Subprocessors:</strong> Cloud infrastructure (AWS GovCloud), security monitoring, and other service providers operating under signed subprocessor DPAs. A current list is available to clients upon request</li>
+      <li><strong>Legal compliance:</strong> When required by law, court order, or regulatory authority</li>
+      <li><strong>Business transfers:</strong> In connection with a merger, acquisition, or asset sale, with appropriate confidentiality protections</li>
+    </ul>
+
+    <h2>6. Data security</h2>
+    <p>We implement comprehensive technical and organizational security measures including AES-256 encryption at rest, TLS 1.3 encryption in transit, zero-trust access controls, multi-factor authentication, role-based permissions, immutable audit logging, and annual third-party penetration testing. We are SOC 2 Type II certified and maintain HIPAA-aligned security practices.</p>
+
+    <h2>7. Data retention</h2>
+    <p>We retain verification query logs and audit records for a minimum of 7 years in compliance with insurance industry regulatory requirements. Client account data is retained for the duration of the contract plus 3 years. Raw death certificate data accessed under the Raw Data tier is subject to enhanced retention and deletion terms specified in the applicable Data Processing Agreement.</p>
+    <p>You may request deletion of personal data subject to our legal retention obligations by contacting <a href="mailto:privacy@rinvue.com">privacy@rinvue.com</a>.</p>
+
+    <h2>8. Your rights</h2>
+    <p>Depending on your jurisdiction, you may have the right to:</p>
+    <ul>
+      <li>Access the personal data we hold about you</li>
+      <li>Correct inaccurate or incomplete data</li>
+      <li>Request deletion of your data (subject to legal retention requirements)</li>
+      <li>Object to or restrict certain processing</li>
+      <li>Data portability (where technically feasible)</li>
+      <li>Withdraw consent where processing is consent-based</li>
+      <li>Lodge a complaint with a supervisory authority</li>
+    </ul>
+    <p>To exercise any of these rights, contact <a href="mailto:privacy@rinvue.com">privacy@rinvue.com</a>. We will respond within 30 days.</p>
+
+    <h2>9. California residents (CCPA / CPRA)</h2>
+    <p>California residents have additional rights under the California Consumer Privacy Act. We do not sell personal information. You have the right to know what personal information we collect, to request deletion, and to opt out of any future sale (which we do not conduct). To exercise CCPA rights, contact <a href="mailto:privacy@rinvue.com">privacy@rinvue.com</a>.</p>
+
+    <h2>10. Cookies</h2>
+    <p>We use essential and analytics cookies on our website. For full details, see our <a onclick="showPage('cookies')" style="cursor:pointer;">Cookie policy</a>.</p>
+
+    <h2>11. Changes to this policy</h2>
+    <p>We will notify active clients of material changes to this policy by email at least 30 days before they take effect. The current version is always available at rinvue.com.</p>
+
+    <h2>12. Contact</h2>
+    <p>Privacy Team: <a href="mailto:privacy@rinvue.com">privacy@rinvue.com</a><br>Rinvue Inc., Houston, TX<br>For legal notices: <a href="mailto:legal@rinvue.com">legal@rinvue.com</a></p>
+  </div>
+  <footer>
+    <p>© 2026 Rinvue Inc. All rights reserved.</p>
+    <div class="footer-links">
+      <a onclick="showPage('compliance')">Compliance</a>
+      <a onclick="showPage('privacy')">Privacy policy</a>
+      <a onclick="showPage('terms')">Terms of service</a>
+      <a onclick="showPage('cookies')">Cookie policy</a>
+      <a onclick="showPage('support')">Support</a>
+      <a onclick="showPage('login')">Client login</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════ TERMS OF SERVICE ══════════ -->
+<div id="page-terms" class="page">
+  <div class="static-page">
+    <h1>Terms of service</h1>
+    <p class="static-date">Effective date: January 1, 2026 &nbsp;·&nbsp; Last updated: January 1, 2026</p>
+
+    <div class="info-box">These Terms of Service govern your organization's access to and use of the Rinvue death verification platform. By accessing our services, you represent that you are an authorized representative of a licensed regulated institution and agree to be bound by these Terms. Questions: <a href="mailto:legal@rinvue.com">legal@rinvue.com</a></div>
+
+    <h2>1. Eligibility and authorization</h2>
+    <p>Access to the Rinvue platform is restricted to licensed and authorized organizations including life and property & casualty insurers, banks and lending institutions, pension fund administrators, healthcare organizations, government agencies, and legal or estate service providers operating under applicable regulatory frameworks. You represent that your organization holds all licenses and regulatory authorizations required to access death registry data for your stated use case, and that you will maintain such authorizations throughout the term of your agreement with Rinvue.</p>
+
+    <h2>2. Permitted use</h2>
+    <p>You may use the Rinvue platform solely for the lawful purpose stated in your Master Service Agreement, which may include life insurance claims verification, fraud prevention, benefit administration, dormant account detection, patient record reconciliation, pension benefit verification, or estate administration. You agree not to:</p>
+    <ul>
+      <li>Use the platform for any purpose not stated in your MSA</li>
+      <li>Re-disclose raw registry data to any party without independent authorization from the SSA and applicable state vital records authorities</li>
+      <li>Attempt to reverse engineer, copy, or replicate any part of our platform, API, or data pipelines</li>
+      <li>Share API credentials or access tokens with unauthorized parties</li>
+      <li>Transmit data that violates HIPAA, GLBA, or applicable state privacy laws</li>
+      <li>Use the platform in any manner that could harm individuals whose data appears in registry records</li>
+    </ul>
+
+    <h2>3. Data tiers and access restrictions</h2>
+    <p><strong>Match tier:</strong> Clients receive verified match/no-match responses with confidence scores. No raw PII from death registries is transmitted. Available to all clients under a standard DPA.</p>
+    <p><strong>Raw data tier:</strong> Access to full EDRS death certificate fields and SSDMF raw records requires execution of an enhanced Data Processing Agreement, a Business Associate Agreement (for healthcare clients), and demonstrated independent compliance with SSA DMF re-disclosure restrictions. Raw data tier access is subject to enhanced audit logging and field-level access controls.</p>
+
+    <h2>4. API credentials and security</h2>
+    <p>API credentials issued to your organization are confidential. You are responsible for all activity conducted under your credentials. You must notify Rinvue immediately at <a href="mailto:security@rinvue.com">security@rinvue.com</a> upon discovery of any unauthorized access. Rinvue reserves the right to suspend access immediately upon suspected credential compromise.</p>
+
+    <h2>5. Service levels and data refresh</h2>
+    <p>Rinvue provides a 99.99% uptime SLA for enterprise clients and a 99.9% SLA for standard clients. Data is refreshed from all 50 state EDRS feeds and the federal SSDMF every 30 seconds under normal operating conditions. Rinvue is not responsible for delays caused by registry source outages outside our control. Remedies for SLA breach are set forth in the applicable Service Order.</p>
+
+    <h2>6. Accuracy and reliance</h2>
+    <p>Rinvue provides verification results based on the current state of federal and state death registry records. Registry records may not be complete or current — death certificates can take days or weeks to appear in EDRS systems after filing. Rinvue does not warrant the completeness of registry data. Clients are solely responsible for decisions made based on verification results and should not rely on Rinvue results as the sole basis for any decision with legal or financial consequences.</p>
+
+    <h2>7. Intellectual property</h2>
+    <p>The Rinvue platform, API, matching algorithms, data normalization schemas, and all related technology are the exclusive property of Rinvue Inc. Client query data and results remain the property of the client. Rinvue retains the right to use aggregated, de-identified usage data to improve its services.</p>
+
+    <h2>8. Confidentiality</h2>
+    <p>Each party agrees to maintain the confidentiality of the other party's non-public information and to use it only for the purposes of the agreement. This obligation survives termination of the agreement for a period of 5 years.</p>
+
+    <h2>9. Limitation of liability</h2>
+    <p>To the maximum extent permitted by law, Rinvue's aggregate liability for any claim arising from your use of the platform shall not exceed the total fees paid by you in the twelve months preceding the claim. Rinvue shall not be liable for indirect, incidental, consequential, or punitive damages. These limitations apply regardless of the theory of liability.</p>
+
+    <h2>10. Indemnification</h2>
+    <p>You agree to indemnify and hold harmless Rinvue Inc. from any claims, damages, or expenses arising from your violation of these Terms, your misuse of registry data, or your failure to maintain required regulatory authorizations.</p>
+
+    <h2>11. Term and termination</h2>
+    <p>These Terms remain in effect for the duration of your Service Order. Either party may terminate for material breach with 30 days written notice. Rinvue may suspend access immediately for violation of data use restrictions or security requirements. Upon termination, your right to access the platform ceases immediately and you must destroy any cached registry data.</p>
+
+    <h2>12. Governing law and disputes</h2>
+    <p>These Terms are governed by the laws of the State of Texas, without regard to conflict of law principles. Any disputes shall be resolved exclusively in the state or federal courts located in Harris County, Texas. The parties waive any objection to such jurisdiction and venue.</p>
+
+    <h2>13. Changes to these Terms</h2>
+    <p>Rinvue may update these Terms with 30 days written notice to active clients. Continued use of the platform after the effective date constitutes acceptance of the updated Terms.</p>
+
+    <h2>14. Contact</h2>
+    <p>Legal: <a href="mailto:legal@rinvue.com">legal@rinvue.com</a><br>Security: <a href="mailto:security@rinvue.com">security@rinvue.com</a><br>Rinvue Inc., Houston, TX</p>
+  </div>
+  <footer>
+    <p>© 2026 Rinvue Inc. All rights reserved.</p>
+    <div class="footer-links">
+      <a onclick="showPage('compliance')">Compliance</a>
+      <a onclick="showPage('privacy')">Privacy policy</a>
+      <a onclick="showPage('terms')">Terms of service</a>
+      <a onclick="showPage('cookies')">Cookie policy</a>
+      <a onclick="showPage('support')">Support</a>
+      <a onclick="showPage('login')">Client login</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════ COOKIE POLICY ══════════ -->
+<div id="page-cookies" class="page">
+  <div class="static-page">
+    <h1>Cookie policy</h1>
+    <p class="static-date">Effective date: January 1, 2026 &nbsp;·&nbsp; Last updated: January 1, 2026</p>
+
+    <div class="info-box">This policy explains how Rinvue uses cookies and similar tracking technologies on rinvue.com. You can manage your cookie preferences at any time by contacting <a href="mailto:privacy@rinvue.com">privacy@rinvue.com</a>.</div>
+
+    <h2>1. What are cookies</h2>
+    <p>Cookies are small text files placed on your device when you visit a website. They allow the website to recognize your device, remember your preferences, and collect information about how you interact with the site. We also use similar technologies such as local storage and session tokens.</p>
+
+    <h2>2. Cookies we use</h2>
+
+    <h3>Essential cookies — always active</h3>
+    <p>These cookies are required for the platform to function. They cannot be disabled.</p>
+    <ul>
+      <li><strong>Session token:</strong> Maintains your authenticated session in the client portal. Expires when you sign out or after 8 hours of inactivity.</li>
+      <li><strong>CSRF protection token:</strong> Prevents cross-site request forgery attacks. Required for all authenticated API interactions.</li>
+      <li><strong>Cookie consent:</strong> Stores your cookie preference so we don't show the banner on every visit. Expires after 12 months.</li>
+      <li><strong>Load balancer cookie:</strong> Routes your requests to the correct server instance for session consistency. Session-scoped.</li>
+    </ul>
+
+    <h3>Analytics cookies — optional</h3>
+    <p>These cookies help us understand how visitors use our website so we can improve it. They collect anonymized data only.</p>
+    <ul>
+      <li><strong>Usage analytics:</strong> Tracks pages visited, time on site, and navigation paths. Data is aggregated and never linked to individual identities. Expires after 13 months.</li>
+      <li><strong>Performance monitoring:</strong> Measures page load times and API response times to identify and fix performance issues. Expires after 30 days.</li>
+    </ul>
+
+    <h3>Cookies we do NOT use</h3>
+    <ul>
+      <li>Advertising or targeting cookies</li>
+      <li>Social media tracking pixels</li>
+      <li>Third-party marketing cookies</li>
+      <li>Cross-site behavioral tracking</li>
+    </ul>
+
+    <h2>3. Third-party cookies</h2>
+    <p>Our platform is hosted on AWS infrastructure. AWS may set essential technical cookies for load balancing and security purposes. These are covered under our subprocessor agreement with AWS and are not used for advertising. We do not embed third-party social media widgets or advertising networks that would set their own cookies.</p>
+
+    <h2>4. Your choices</h2>
+    <p>When you first visit rinvue.com, you will see a cookie consent banner. You can choose to accept all cookies or essential cookies only. You can change your preference at any time by:</p>
+    <ul>
+      <li>Emailing <a href="mailto:privacy@rinvue.com">privacy@rinvue.com</a> to update your preference</li>
+      <li>Clearing your browser cookies and revisiting the site to see the banner again</li>
+      <li>Using your browser's built-in cookie controls (note: blocking essential cookies will prevent platform login)</li>
+    </ul>
+
+    <h2>5. Cookie retention periods</h2>
+    <ul>
+      <li>Session cookies: deleted when you close your browser or sign out</li>
+      <li>Persistent cookies: retained for 30 days to 13 months depending on purpose, as described above</li>
+      <li>Consent record: retained for 12 months</li>
+    </ul>
+
+    <h2>6. Do Not Track</h2>
+    <p>Our analytics cookies collect anonymized data only and do not track individuals across websites. We honor browser Do Not Track signals by disabling analytics cookies when detected.</p>
+
+    <h2>7. Changes to this policy</h2>
+    <p>We will notify active clients of material changes to our cookie practices by email and by updating this policy. The current version is always at rinvue.com.</p>
+
+    <h2>8. Contact</h2>
+    <p>Cookie and privacy questions: <a href="mailto:privacy@rinvue.com">privacy@rinvue.com</a><br>Rinvue Inc., Houston, TX</p>
+  </div>
+  <footer>
+    <p>© 2026 Rinvue Inc. All rights reserved.</p>
+    <div class="footer-links">
+      <a onclick="showPage('compliance')">Compliance</a>
+      <a onclick="showPage('privacy')">Privacy policy</a>
+      <a onclick="showPage('terms')">Terms of service</a>
+      <a onclick="showPage('cookies')">Cookie policy</a>
+      <a onclick="showPage('support')">Support</a>
+      <a onclick="showPage('login')">Client login</a>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════ SUPPORT ══════════ -->
+<div id="page-support" class="page">
+  <div class="static-page" style="max-width:900px;">
+    <h1>Support</h1>
+    <p class="static-date">Monday – Friday 8 AM – 6 PM CT &nbsp;·&nbsp; Enterprise clients: 24/7 on-call</p>
+
+    <div class="support-grid">
+      <div class="support-card">
+        <i class="ti ti-headset"></i>
+        <h3>General support</h3>
+        <p>Platform questions, account issues, and billing inquiries. Response within 4 business hours.</p>
+        <a href="mailto:support@rinvue.com">support@rinvue.com</a>
+      </div>
+      <div class="support-card">
+        <i class="ti ti-api"></i>
+        <h3>API &amp; integrations</h3>
+        <p>Technical questions, sandbox access, webhook setup, and API documentation.</p>
+        <a href="mailto:integrations@rinvue.com">integrations@rinvue.com</a>
+      </div>
+      <div class="support-card">
+        <i class="ti ti-shield-check"></i>
+        <h3>Compliance &amp; legal</h3>
+        <p>DPAs, BAAs, DMF certification questions, security reviews, and due diligence packages.</p>
+        <a href="mailto:legal@rinvue.com">legal@rinvue.com</a>
+      </div>
+      <div class="support-card">
+        <i class="ti ti-building"></i>
+        <h3>Sales &amp; onboarding</h3>
+        <p>New client inquiries, raw data tier access, enterprise contracts, and government procurement.</p>
+        <a href="mailto:sales@rinvue.com">sales@rinvue.com</a>
+      </div>
+      <div class="support-card">
+        <i class="ti ti-lock"></i>
+        <h3>Security incidents</h3>
+        <p>Report suspected unauthorized access, data incidents, or vulnerabilities immediately.</p>
+        <a href="mailto:security@rinvue.com">security@rinvue.com</a>
+      </div>
+      <div class="support-card">
+        <i class="ti ti-eye"></i>
+        <h3>Privacy requests</h3>
+        <p>Data subject rights, CCPA requests, cookie preferences, and privacy policy questions.</p>
+        <a href="mailto:privacy@rinvue.com">privacy@rinvue.com</a>
+      </div>
+    </div>
+
+    <h2>Frequently asked questions</h2>
+    <div style="margin-top:16px;">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How does the 30-second data refresh work?<i class="ti ti-chevron-down" style="flex-shrink:0;"></i></div>
+        <div class="faq-a">Rinvue maintains persistent, monitored connections to EDRS data feeds in all 50 states and the SSDMF. Our pipeline ingests, normalizes, and indexes new records every 30 seconds. If a registry sync is delayed, stale-data alerts fire within 60 seconds and our on-call team is automatically paged. Your API responses and dashboard always reflect the most recent sync cycle.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What is the difference between match results and raw data?<i class="ti ti-chevron-down" style="flex-shrink:0;"></i></div>
+        <div class="faq-a">Match results return a verified confirmed/no-record/pending response with a confidence score. No raw PII from the registry is transmitted. Raw data access — available at additional cost under the Raw Data tier — provides the full underlying death certificate fields including date of death, state of filing, and where available, cause of death. Raw data requires a signed DPA, BAA (for healthcare clients), and demonstrated independent SSA DMF compliance.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Which industries does Rinvue serve?<i class="ti ti-chevron-down" style="flex-shrink:0;"></i></div>
+        <div class="faq-a">Rinvue serves any regulated organization with a legitimate need for death verification data: life and P&C insurers, banks and lenders, pension fund administrators, healthcare organizations, government agencies at the federal and state level, and legal or estate services providers. Our compliance stack is designed to satisfy the regulatory requirements of all these industries.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How do I set up SSO for my organization?<i class="ti ti-chevron-down" style="flex-shrink:0;"></i></div>
+        <div class="faq-a">We support Microsoft Azure AD / Entra ID, Okta, Google Workspace, OneLogin, and Ping Identity via SAML 2.0 and OIDC. Email <a href="mailto:integrations@rinvue.com">integrations@rinvue.com</a> with your identity provider details and we will provide metadata and configuration instructions. SSO setup typically takes 1–2 business days.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What compliance documents do you provide during vendor due diligence?<i class="ti ti-chevron-down" style="flex-shrink:0;"></i></div>
+        <div class="faq-a">We provide our SOC 2 Type II report (under NDA), penetration test executive summary, completed VSA/SIG questionnaires, DPA template, BAA template (healthcare clients), subprocessor list, cyber insurance certificate, and security policy overview. Contact <a href="mailto:legal@rinvue.com">legal@rinvue.com</a> to request the full due diligence package.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Why does a record show "No record" in EDRS or SSDMF?<i class="ti ti-chevron-down" style="flex-shrink:0;"></i></div>
+        <div class="faq-a">Registry records can take 2–10 business days to propagate after a death certificate is filed at the state level, and SSDMF updates from SSA can take additional time. If a record remains unverified after 10 business days, contact <a href="mailto:support@rinvue.com">support@rinvue.com</a> for a manual registry check.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How do I request API sandbox access?<i class="ti ti-chevron-down" style="flex-shrink:0;"></i></div>
+        <div class="faq-a">Email <a href="mailto:integrations@rinvue.com">integrations@rinvue.com</a> with your organization name and intended use case. Sandbox credentials with synthetic EDRS and SSDMF test records are provisioned within one business day. No DPA is required for sandbox access.</div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <p>© 2026 Rinvue Inc. All rights reserved.</p>
+    <div class="footer-links">
+      <a onclick="showPage('compliance')">Compliance</a>
+      <a onclick="showPage('privacy')">Privacy policy</a>
+      <a onclick="showPage('terms')">Terms of service</a>
+      <a onclick="showPage('cookies')">Cookie policy</a>
+      <a onclick="showPage('support')">Support</a>
+      <a onclick="showPage('login')">Client login</a>
+    </div>
+  </footer>
+</div>
+
 <script>
+  // ── PAGE NAV ──
   function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById('page-' + id).classList.add('active');
-    document.getElementById('login-alert').style.display = 'none';
+    const a = document.getElementById('login-alert');
+    const s = document.getElementById('sso-panel');
+    if (a) a.style.display = 'none';
+    if (s) s.style.display = 'none';
     window.scrollTo(0, 0);
   }
 
-  function handleLogin() {
-    const id = document.getElementById('agent-id').value.trim();
-    const pw = document.getElementById('password').value.trim();
-    const alert = document.getElementById('login-alert');
-    alert.style.display = 'none';
-    if (id && pw) {
-      document.getElementById('welcome-msg').textContent = 'Welcome back, ' + id;
-      showPage('dashboard');
-    } else {
-      alert.style.display = 'block';
+  // ── COOKIE BANNER ──
+  function initCookies() {
+    if (!localStorage.getItem('rinvue_cookie_consent')) {
+      setTimeout(() => document.getElementById('cookie-banner').classList.add('visible'), 800);
     }
+  }
+  function dismissCookies(choice) {
+    localStorage.setItem('rinvue_cookie_consent', choice);
+    document.getElementById('cookie-banner').classList.remove('visible');
+  }
+  initCookies();
+
+  // ── LOGIN (Microsoft Entra ID via MSAL) ──
+  // Add MSAL script to <head>:
+  // <script src="https://alcdn.msauth.net/browser/2.38.0/js/msal-browser.min.js"></script>
+  // Then replace handleLogin() with the MSAL version below.
+  // For now this demo version accepts any input.
+
+  let isRawTier = false;
+
+  function handleLogin() {
+    const orgType = document.getElementById('org-type').value;
+    if (!orgType) {
+      const a = document.getElementById('login-alert');
+      a.style.display = 'block';
+      a.textContent = 'Please select your organization type.';
+      return;
+    }
+    // REPLACE THIS BLOCK with MSAL loginPopup() when ready:
+    // const msalConfig = { auth: { clientId: "YOUR_CLIENT_ID", authority: "https://login.microsoftonline.com/YOUR_TENANT_ID", redirectUri: window.location.origin }};
+    // const msalInstance = new msal.PublicClientApplication(msalConfig);
+    // msalInstance.loginPopup({ scopes: ["User.Read"] }).then(result => { ... });
+
+    isRawTier = false; // set true for raw tier users based on Entra group membership
+    document.getElementById('welcome-msg').textContent = 'Welcome · ' + orgType;
+    const tb = document.getElementById('tier-badge');
+    tb.textContent = isRawTier ? 'Raw data tier' : 'Match tier';
+    tb.style.background = isRawTier ? '#042C53' : '#E6F1FB';
+    tb.style.color = isRawTier ? '#B5D4F4' : '#0C447C';
+    const rt = document.getElementById('raw-tab');
+    rt.disabled = !isRawTier;
+    rt.style.opacity = isRawTier ? '1' : '0.45';
+    showPage('dashboard');
+    startRefreshTimer();
+    refreshData();
   }
 
   function handleLogout() {
-    document.getElementById('agent-id').value = '';
-    document.getElementById('password').value = '';
+    clearInterval(refreshInterval);
     showPage('login');
   }
 
-  function handleSSO() {
-    alert('SSO redirect: Connect this button to your carrier identity provider (Okta, Azure AD, etc.)');
+  // ── SSO ──
+  function toggleSSO() {
+    const p = document.getElementById('sso-panel');
+    p.style.display = p.style.display === 'block' ? 'none' : 'block';
+  }
+  function launchSSO(provider) {
+    const endpoints = {
+      'Okta': 'https://your-org.okta.com/app/rinvue/sso/saml',
+      'Google Workspace': 'https://accounts.google.com/o/saml2/idp?idpid=YOUR_IDP_ID',
+      'OneLogin': 'https://your-org.onelogin.com/trust/saml2/http-post/sso/YOUR_APP_ID',
+      'Ping Identity': 'https://your-org.pingone.com/idp/startSSO.ping?PartnerSpId=rinvue'
+    };
+    alert('SSO via ' + provider + ' — replace the URL in launchSSO() with your real IDP endpoint:\n\n' + endpoints[provider]);
   }
 
-  function showForgot() {
-    alert('Forgot password: Connect this to your password reset flow or email sales@rinvue.com');
+  // ── 30-SECOND REFRESH ──
+  let refreshInterval;
+  let countdown = 30;
+
+  function startRefreshTimer() {
+    countdown = 30;
+    clearInterval(refreshInterval);
+    refreshInterval = setInterval(() => {
+      countdown--;
+      const fill = document.getElementById('refresh-fill');
+      const counter = document.getElementById('refresh-countdown');
+      if (fill) fill.style.width = ((countdown / 30) * 100) + '%';
+      if (counter) counter.textContent = countdown + 's';
+      if (countdown <= 0) { countdown = 30; refreshData(); }
+    }, 1000);
   }
 
-  document.getElementById('password').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') handleLogin();
-  });
+  function refreshData() {
+    // Replace with: fetch('/api/dashboard-stats', { headers: { Authorization: 'Bearer ' + token } }).then(...)
+    document.getElementById('stat-active').textContent = 130 + Math.floor(Math.random() * 30);
+    document.getElementById('stat-matched').textContent = 28 + Math.floor(Math.random() * 20);
+    document.getElementById('stat-pending').textContent = 8 + Math.floor(Math.random() * 15);
+    document.getElementById('stat-flagged').textContent = Math.floor(Math.random() * 9);
+    const dot = document.querySelector('.refresh-dot');
+    if (dot) { dot.style.background = '#185FA5'; setTimeout(() => dot.style.background = '#3B9B3F', 500); }
+  }
+
+  // ── DATA TABS ──
+  function switchTab(tab, el) {
+    document.querySelectorAll('.data-tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    const mv = document.getElementById('match-view');
+    const rv = document.getElementById('raw-view');
+    const title = document.getElementById('table-title');
+    if (tab === 'raw') {
+      if (!isRawTier) {
+        el.classList.remove('active');
+        document.querySelectorAll('.data-tab')[0].classList.add('active');
+        alert('Raw data access requires the Raw Data tier.\nContact sales@rinvue.com to upgrade.');
+        return;
+      }
+      mv.style.display = 'none'; rv.style.display = 'block';
+      title.textContent = 'Raw registry records';
+      document.getElementById('raw-tbody').innerHTML = [
+        ['QRY-20483','Margaret L. Torres','***-**-8821','1941-03-12','2026-05-14','TX','TX-2026-08821','EDRS'],
+        ['QRY-20484','Harold B. Chen','***-**-4402','1938-11-28','—','CA','—','SSDMF pending'],
+        ['QRY-20486','James R. Okafor','***-**-7751','1955-06-04','2026-05-16','FL','FL-2026-44210','EDRS+SSDMF']
+      ].map(r => `<tr class="raw-data-row"><td>${r[0]} <span class="raw-badge">RAW</span></td>${r.slice(1).map(c=>`<td class="raw-data-cell">${c}</td>`).join('')}</tr>`).join('');
+    } else {
+      mv.style.display = 'block'; rv.style.display = 'none';
+      title.textContent = 'Recent match results';
+    }
+  }
+
+  function exportCSV() { alert('CSV export: connect to your API export endpoint to generate a signed download URL.'); }
+
+  // ── FAQ ──
+  function toggleFaq(el) {
+    const a = el.nextElementSibling;
+    const i = el.querySelector('i');
+    a.classList.toggle('open');
+    i.style.transform = a.classList.contains('open') ? 'rotate(180deg)' : '';
+  }
 </script>
-
 </body>
 </html>
